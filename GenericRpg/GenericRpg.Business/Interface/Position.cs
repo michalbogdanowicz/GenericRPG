@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GenericRpg.Business
+namespace GenericRpg.Business.Model
 {
-    public class Class1
+    interface IPosition
     {
+       decimal X { get; set; }
+        decimal Y { get; set; }
     }
 }
