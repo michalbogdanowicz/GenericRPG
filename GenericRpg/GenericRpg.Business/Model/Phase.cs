@@ -127,9 +127,9 @@ namespace GenericRpg.Business.Model
             return count;
         }
 
-        internal bool CanIMoveInThePOintPlace(Being being, Point wantedPoint)
+        internal bool CanIMoveInThePointPlace(Being being, Point wantedPoint)
         {
-            if (this.UniversalObjectsInside.Where(i =>DoOverlap( i.Position , wantedPoint)).FirstOrDefault() != null)
+            if (this.UniversalObjectsInside.Where(i =>DoOverlap( i.Position , wantedPoint) && i != being).FirstOrDefault() != null)
             {
                 return false;
             }
@@ -137,16 +137,20 @@ namespace GenericRpg.Business.Model
      
         }
 
-        private bool DoOverlap(Point lowerBound, Point adversary)
+        private bool DoOverlap(Point caller, Point adversary)
         {
+            Point callerLeftUpper = new Point(caller.X - 2, caller.Y - 2);
+            Point adversaryLeftUpper = new Point(adversary.X - 2, adversary.Y - 2);
 
-            Point uppperBound = new Point(lowerBound.X + 4, lowerBound.Y + 4);
+            Rectangle callerRectangle = new Rectangle(callerLeftUpper.X, callerLeftUpper.Y, 4, 4);
+            Rectangle adversayRectangle = new Rectangle(adversaryLeftUpper.X, adversaryLeftUpper.Y, 4, 4);
+           return  callerRectangle.IntersectsWith(adversayRectangle);
 
-            if (adversary.X >= lowerBound.X && adversary.X <= uppperBound.X &&
-            adversary.Y >= lowerBound.Y && adversary.Y <= uppperBound.Y) { return true; }
+            //if (adversary.X >= lowerBound.X && adversary.X <= uppperBound.X &&
+            //adversary.Y >= lowerBound.Y && adversary.Y <= uppperBound.Y) { return true; }
 
 
-            return false;
+            //return false;
         }
     }
 }

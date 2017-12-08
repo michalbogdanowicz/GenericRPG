@@ -18,20 +18,26 @@ namespace GenericRpg.WindowsGUI
         ExistenceManager existenceManager;
         Existence currentExistence;
         Random random;
+        long universalTimeUnit = 0;
         public int statingPopulationNumber = 0;
+        Drawer drawer;
+
+        DateTime StartingTime = DateTime.MinValue;
         public Form1()
         {
             InitializeComponent();
             existenceManager = new ExistenceManager();
             random = new Random();
+            drawer = new Drawer();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            lblGenerating.Visible = false;
+            lblGenratingLabelOnly.Visible = false;
         }
 
-        private void btnGenerateUniverse_Click(object sender, EventArgs e)
+        private async void btnGenerateUniverse_Click(object sender, EventArgs e)
         {
             // this is meant to create the universe
             int number = 0;
@@ -40,19 +46,33 @@ namespace GenericRpg.WindowsGUI
                 MessageBox.Show(String.Format("Please insert a valid integer {0} - {1}", 0, int.MaxValue));
                 return;
             }
-            currentExistence = existenceManager.CreateLimitedOnePhaseExistence(number, 50,50,500,500);
+            universalTimeUnit = 0;
+            lblGenerating.Visible = true;
+            lblGenratingLabelOnly.Visible = true;
+
             statingPopulationNumber = number;
+            IProgress<int> ProgressForNumberCreated = new Progress<int>( v => {
+                ShowUpdate(v);
+            });
+            currentExistence =  await existenceManager.CreateLimitedOnePhaseExistence(number, 50,50,500,500, ProgressForNumberCreated);
+
+            lblGenerating.Visible = false;
+            lblGenratingLabelOnly.Visible = false;
+            StartingTime = DateTime.Now;
+
+        }
+     
+        private void ShowUpdate(int value)
+        {
+            lblGenerating.Text = string.Format("{0}/{1}", value, statingPopulationNumber);
         }
 
 
-
-        Timer currentTimer = null;
+        System.Threading.Timer currentTimer = null;
         private void btnAction_Click(object sender, EventArgs e)
         {
-           
-            
-            int timeIntervalToSEt = 0;
-            if (!int.TryParse(txtEntitiesNumber.Text, out timeIntervalToSEt))
+            int timeIntervalToSet = 0;
+            if (!int.TryParse(txtEntitiesNumber.Text, out timeIntervalToSet))
             {
                 MessageBox.Show(String.Format("Please insert a valid integer for the interval {0} - {1}", 0, int.MaxValue));
                 return;
@@ -65,75 +85,71 @@ namespace GenericRpg.WindowsGUI
             }
             if (currentTimer != null)
             {
-                currentTimer.Tick -= TimerTickEvent;
-                currentTimer.Dispose();
+                StopTimer();
             }
-            currentTimer = new Timer();
-            currentTimer.Interval = timeIntervalToSEt;
-            currentTimer.Tick += TimerTickEvent;        
-            currentTimer.Enabled = true;
-        }
-
-
-        private Brush GetBrush(UniversalObject universalObject) {
-            Brush brush = null;
-            if (universalObject is Being)
+            IProgress<int> theprogress = new Progress<int>(i =>
             {
-                Being being = universalObject as Being;
-                if (being.IsAlive)
-                {
-                    brush = new SolidBrush(Color.Green);
-                }
-                else
-                {
-                    brush = new SolidBrush(Color.Red);
-                }
+                timerTick();
+            });
+            if (currentTimer == null)
+            {
+                currentTimer = new System.Threading.Timer(o => TimerTickForProgreess(theprogress), null, 0, timeIntervalToSet);
             }
             else
             {
-                brush = new SolidBrush(Color.Gray);
+                ChangeTimerInterval(timeIntervalToSet);
             }
-            return brush;
+          //  currentTimer.Interval = timeIntervalToSet;
+          //  currentTimer.Tick += TimerTickEvent;        
+          //  currentTimer.Enabled = true;
         }
 
+        private void ChangeTimerInterval(int interval) {
+            currentTimer.Change(0, interval);
+        }
+
+      
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (currentExistence != null && currentExistence.Phases != null)
-            {
-                Phase currentPhase = currentExistence.Phases.FirstOrDefault();
-                if (currentPhase != null)
-                {
-
-                    foreach (UniversalObject universalObject in currentPhase.UniversalObjectsInside)
-                    {
-                        Brush brush = GetBrush(universalObject);
-                        Point[] points = new Point[4];
-                        int drawingOffSet = 4;
-                        points[0] = new Point(universalObject.Position.X, universalObject.Position.Y);
-                        points[1] = new Point(universalObject.Position.X, universalObject.Position.Y + drawingOffSet);
-                        points[2] = new Point(universalObject.Position.X + drawingOffSet, universalObject.Position.Y + drawingOffSet);
-                        points[3] = new Point(universalObject.Position.X + drawingOffSet, universalObject.Position.Y);
-                        e.Graphics.FillPolygon(brush, points);
-                    }
-                    foreach (var attacks in LastReport.Attacks)
-                    {
-                        e.Graphics.DrawLine(Pens.Black, attacks.Item1, attacks.Item2);
-                    }
-                        
-                }
-            }
+           // DrawWithGraphics(e.Graphics);
         }
+
+     
         public UniversalTimeUnitPassReport LastReport { get; set; }
-        private void TimerTickEvent(object sender, EventArgs e)
+
+        private void TimerTickForProgreess(IProgress<int> progress)
+        {
+            progress.Report(0);
+        }
+
+        Bitmap theBitmap = null;
+        private async void timerTick()
         {
             
           int alive =  currentExistence.Phases.First().GetNumberAlive();
+            LastReport = currentExistence.MakeAnUniversalTimeUntiPass();
+
             int dead = statingPopulationNumber - alive;
             lblAlvie.Text = alive.ToString();
             lblDead.Text = dead.ToString();
-            LastReport =  currentExistence.MakeAnUniversalTimeUntiPass();
-   
-            panel1.Refresh();
+
+            universalTimeUnit++;
+            lblUniversalTime.Text = universalTimeUnit.ToString();
+            lblUTUSecond.Text = String.Format("{0:0.000}",(universalTimeUnit / (DateTime.Now - StartingTime).TotalSeconds));
+
+
+            if (theBitmap == null) { theBitmap = new Bitmap(500, 500); }
+            using (Graphics graphs = Graphics.FromImage(theBitmap))
+            {
+                if (currentExistence != null || currentExistence.Phases != null || currentExistence.Phases.FirstOrDefault() != null)
+                {
+                    await drawer.DrawWithGraphics( new List<UniversalObject>(currentExistence.Phases.First().UniversalObjectsInside), graphs, cbShowAttacks.Checked, LastReport);
+                }
+           
+            }
+
+            panel1.BackgroundImage = (Bitmap)theBitmap.Clone();
+            panel1.BackgroundImageLayout = ImageLayout.Center;
         }
 
         private void uselessmethod1(object sender, EventArgs e)
@@ -149,7 +165,15 @@ namespace GenericRpg.WindowsGUI
 
         private void btnStopTimer_Click(object sender, EventArgs e)
         {
-            currentTimer.Enabled = false;
+            if (currentTimer != null)
+            {
+                StopTimer();
+            }
+          
+        }
+
+        private void StopTimer() {
+            currentTimer.Change(0, int.MaxValue);
         }
 
         private void label4_Click(object sender, EventArgs e)

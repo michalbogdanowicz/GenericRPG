@@ -42,6 +42,13 @@
             this.lblAlvie = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblDead = new System.Windows.Forms.Label();
+            this.lblGenratingLabelOnly = new System.Windows.Forms.Label();
+            this.lblGenerating = new System.Windows.Forms.Label();
+            this.cbShowAttacks = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblUniversalTime = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblUTUSecond = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnGenerateUniverse
@@ -60,23 +67,25 @@
             this.txtEntitiesNumber.Name = "txtEntitiesNumber";
             this.txtEntitiesNumber.Size = new System.Drawing.Size(100, 20);
             this.txtEntitiesNumber.TabIndex = 2;
+            this.txtEntitiesNumber.Text = "100";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(1064, 203);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 13);
+            this.label1.Size = new System.Drawing.Size(263, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Number of entities to create";
+            this.label1.Text = "Number of entities to create (1600 is a meaningful limit)";
             this.label1.Click += new System.EventHandler(this.uselessmethod1);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
-            this.panel1.Location = new System.Drawing.Point(12, 21);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(936, 521);
+            this.panel1.Size = new System.Drawing.Size(936, 581);
             this.panel1.TabIndex = 4;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -106,6 +115,7 @@
             this.txtTimerInterval.Name = "txtTimerInterval";
             this.txtTimerInterval.Size = new System.Drawing.Size(100, 20);
             this.txtTimerInterval.TabIndex = 7;
+            this.txtTimerInterval.Text = "100";
             // 
             // label3
             // 
@@ -163,11 +173,82 @@
             this.lblDead.TabIndex = 13;
             this.lblDead.Text = "- - -";
             // 
+            // lblGenratingLabelOnly
+            // 
+            this.lblGenratingLabelOnly.AutoSize = true;
+            this.lblGenratingLabelOnly.Location = new System.Drawing.Point(1234, 228);
+            this.lblGenratingLabelOnly.Name = "lblGenratingLabelOnly";
+            this.lblGenratingLabelOnly.Size = new System.Drawing.Size(71, 13);
+            this.lblGenratingLabelOnly.TabIndex = 14;
+            this.lblGenratingLabelOnly.Text = "Generating!!!!";
+            // 
+            // lblGenerating
+            // 
+            this.lblGenerating.AutoSize = true;
+            this.lblGenerating.Location = new System.Drawing.Point(1245, 251);
+            this.lblGenerating.Name = "lblGenerating";
+            this.lblGenerating.Size = new System.Drawing.Size(24, 13);
+            this.lblGenerating.TabIndex = 15;
+            this.lblGenerating.Text = "--/--";
+            // 
+            // cbShowAttacks
+            // 
+            this.cbShowAttacks.AutoSize = true;
+            this.cbShowAttacks.Location = new System.Drawing.Point(1109, 361);
+            this.cbShowAttacks.Name = "cbShowAttacks";
+            this.cbShowAttacks.Size = new System.Drawing.Size(92, 17);
+            this.cbShowAttacks.TabIndex = 16;
+            this.cbShowAttacks.Text = "Show Attacks";
+            this.cbShowAttacks.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1064, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(104, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Universal Time Units";
+            // 
+            // lblUniversalTime
+            // 
+            this.lblUniversalTime.AutoSize = true;
+            this.lblUniversalTime.Location = new System.Drawing.Point(1067, 59);
+            this.lblUniversalTime.Name = "lblUniversalTime";
+            this.lblUniversalTime.Size = new System.Drawing.Size(13, 13);
+            this.lblUniversalTime.TabIndex = 18;
+            this.lblUniversalTime.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1064, 83);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "UTU / Second";
+            // 
+            // lblUTUSecond
+            // 
+            this.lblUTUSecond.AutoSize = true;
+            this.lblUTUSecond.Location = new System.Drawing.Point(1067, 111);
+            this.lblUTUSecond.Name = "lblUTUSecond";
+            this.lblUTUSecond.Size = new System.Drawing.Size(23, 13);
+            this.lblUTUSecond.TabIndex = 20;
+            this.lblUTUSecond.Text = "0/s";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1406, 581);
+            this.Controls.Add(this.lblUTUSecond);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblUniversalTime);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.cbShowAttacks);
+            this.Controls.Add(this.lblGenerating);
+            this.Controls.Add(this.lblGenratingLabelOnly);
             this.Controls.Add(this.lblDead);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblAlvie);
@@ -204,6 +285,13 @@
         private System.Windows.Forms.Label lblAlvie;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblDead;
+        private System.Windows.Forms.Label lblGenratingLabelOnly;
+        private System.Windows.Forms.Label lblGenerating;
+        private System.Windows.Forms.CheckBox cbShowAttacks;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblUniversalTime;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblUTUSecond;
     }
 }
 

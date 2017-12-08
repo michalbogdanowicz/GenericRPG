@@ -48,7 +48,7 @@ namespace GenericRpg.Business.Model
             base.Position = position;
             CurrentWeapon = new Weapon();
             CurrentWeapon.Damage = random.Next(1, 2);
-            CurrentWeapon.Range = random.Next(4,10);
+            CurrentWeapon.Range = random.Next(5,10);
             CurrentWeapon.Name = "Hands";
 
             base.Attributes = new Attributes();
@@ -149,7 +149,7 @@ namespace GenericRpg.Business.Model
             }
 
             Point wantedPoint = new Point(newX, newY);
-            if (phase.CanIMoveInThePOintPlace(this,wantedPoint))
+            if (phase.CanIMoveInThePointPlace(this,wantedPoint))
             {
                 this.Position = wantedPoint;
             }
@@ -169,7 +169,7 @@ namespace GenericRpg.Business.Model
                 newX = CalculatePositionX(target);
                 newY = CalculatePositionY(target);
                 Point wantedPoint = new Point(newX, newY);
-                if (target.PhaseOfExistance.CanIMoveInThePOintPlace(this, wantedPoint))
+                if (target.PhaseOfExistance.CanIMoveInThePointPlace(this, wantedPoint))
                 {
                     this.Position = wantedPoint;
                 }
