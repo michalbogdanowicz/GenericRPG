@@ -40,7 +40,7 @@ namespace GenericRpg.Business.Model
         public bool IsALivingBeing { get; set; }
         public Weapon CurrentWeapon { get; set; }
         private Random random;
-        private LivingTarget CurrentAttackTarget {get;set;}
+        private LivingTarget CurrentAttackTarget { get; set; }
 
         public Being(Point position)
         {
@@ -48,7 +48,7 @@ namespace GenericRpg.Business.Model
             base.Position = position;
             CurrentWeapon = new Weapon();
             CurrentWeapon.Damage = random.Next(1, 2);
-            CurrentWeapon.Range = random.Next(5,10);
+            CurrentWeapon.Range = random.Next(5, 10);
             CurrentWeapon.Name = "Hands";
 
             base.Attributes = new Attributes();
@@ -68,7 +68,7 @@ namespace GenericRpg.Business.Model
 
         public override ActionReport DoAnythingYoucanDoOrWantTo(Phase phase)
         {
-           return DecideWhatTodo(phase);
+            return DecideWhatTodo(phase);
         }
 
         int sameTargetIteration = 0;
@@ -80,8 +80,8 @@ namespace GenericRpg.Business.Model
         /// <param name="phase"></param>
         public ActionReport DecideWhatTodo(Phase phase)
         {
-            if ( currentActionLimitation == 0) { currentActionLimitation = random.Next(4, 8); }
-             // AM I alive?
+            if (currentActionLimitation == 0) { currentActionLimitation = random.Next(4, 8); }
+            // AM I alive?
             if (this.IsAlive)
             {
                 // Where am I?
@@ -98,21 +98,21 @@ namespace GenericRpg.Business.Model
                 {
                     sameTargetIteration++;
                 }
-                
+
                 if (CurrentAttackTarget == null)
                 {
-                  return  MoveAround(phase);
+                    return MoveAround(phase);
                 }
                 else
                 {
                     // Am In range?
                     if (AmIInRange(CurrentAttackTarget))
                     {
-                     return   Attack(CurrentAttackTarget);
+                        return Attack(CurrentAttackTarget);
                     }
                     else
                     {
-                     return   MoveToward(CurrentAttackTarget);
+                        return MoveToward(CurrentAttackTarget);
                     }
                 }
             }
@@ -149,7 +149,7 @@ namespace GenericRpg.Business.Model
             }
 
             Point wantedPoint = new Point(newX, newY);
-            if (phase.CanIMoveInThePointPlace(this,wantedPoint))
+            if (phase.CanIMoveInThePointPlace(this, wantedPoint))
             {
                 this.Position = wantedPoint;
             }
@@ -173,7 +173,7 @@ namespace GenericRpg.Business.Model
                 {
                     this.Position = wantedPoint;
                 }
-              
+
                 movementMade++;
             }
             return new ActionReport();
