@@ -9,7 +9,7 @@ namespace GenericRpg.Business.Model
     /// <summary>
     /// The attributes of a being , some might be missing, as it might not apply!
     /// </summary>
-    class Attributes
+    public class Attributes
     {
         /// <summary>
         /// The might!
@@ -31,6 +31,14 @@ namespace GenericRpg.Business.Model
         /// A measure of social skillls
         /// </summary>
         public int? Personality { get; set; }
+        /// <summary>
+        /// a representation of the health status
+        /// </summary>
+        public int? Durability { get; set; }
+        /// <summary>
+        /// Thsi is the amount of units 
+        /// </summary>
+        public int? PossibleMovementUnitWithOneUniversalMovement { get; set; }
         /// <summary>
         /// In Meters
         /// </summary>

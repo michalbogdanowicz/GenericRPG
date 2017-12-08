@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GenericRpg.Business.Model
 {
-    interface IPosition
+    public class LivingTarget
     {
-      Point Position { get; set; }
+        public Being  Being { get; set; }
+        public double Distance { get; set; }
     }
 }

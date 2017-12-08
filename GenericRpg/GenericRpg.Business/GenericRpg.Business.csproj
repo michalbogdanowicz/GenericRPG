@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,10 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Manager\World.cs" />
+    <Compile Include="Manager\ExistenceManager.cs" />
+    <Compile Include="Model\LivingTarget.cs" />
+    <Compile Include="Model\Phase.cs" />
+    <Compile Include="Model\Existence.cs" />
     <Compile Include="Model\Attributes.cs" />
+    <Compile Include="Model\Being.cs" />
     <Compile Include="Model\UniversalObject.cs" />
     <Compile Include="Interface\Position.cs" />
+    <Compile Include="Model\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
