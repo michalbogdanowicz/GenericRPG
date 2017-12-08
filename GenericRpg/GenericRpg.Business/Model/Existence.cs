@@ -1,4 +1,5 @@
 ﻿using GenericRpg.Business.Model;
+using GenericRpg.Business.Model.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,12 @@ namespace GenericRpg.Business.Model
         /// <summary>
         /// The universe time is not affected by the relativity of einstein, so the time is always the same! LOVELY ( FOR NOW MUHAHAHA)
         /// </summary>
-        public void MakeAnUniversalTimeUntiPass() {
+        public UniversalTimeUnitPassReport MakeAnUniversalTimeUntiPass() {
             foreach (Phase phase in Phases)
             {
-                phase.MankeAnUniversalTimeUntiPass();
+             return   phase.MankeAnUniversalTimeUntiPass();
             }
+            return null;
         }
 
     }

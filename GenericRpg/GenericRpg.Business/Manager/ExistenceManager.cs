@@ -35,14 +35,23 @@ namespace GenericRpg.Business.Manager
                     posX = random.Next(minX, maxX);
                     posY = random.Next(minX, maxY);
                 }
-                while (existence.Phases.First().UniversalObjectsInside.Where(j => j.Position == new Point(posX, posY)).FirstOrDefault() != null);
+                while (existence.Phases.First().UniversalObjectsInside.Where(j => DoOverlap(j.Position,new Point(posX,posY))).FirstOrDefault() != null);
 
                     existence.Phases.First().UniversalObjectsInside.Add(new Being(new Point(posX, posY)));
 
-
-
             }
             return existence;
+        }
+
+        private bool DoOverlap(Point lowerBound, Point adversary) {
+
+            Point uppperBound = new Point(lowerBound.X + 4, lowerBound.Y + 4);
+
+            if (adversary.X >= lowerBound.X && adversary.X <= uppperBound.X && 
+            adversary.Y >= lowerBound.Y && adversary.Y <= uppperBound.Y) { return true; }
+
+
+            return false;
         }
     }
 }

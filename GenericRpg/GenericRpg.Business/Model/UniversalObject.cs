@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenericRpg.Business.Model.Reports;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace GenericRpg.Business.Model
 
         public Attributes Attributes { get; set; }
 
-        public virtual void DoAnythingYoucanDoOrWantTo(Phase phase) {
+        public virtual ActionReport DoAnythingYoucanDoOrWantTo(Phase phase) {
             // of course if you are an inaminate onbject you have no wil, but you still might be able to do something...
             // and you need the phase 
+            return null;
         }
 
     }

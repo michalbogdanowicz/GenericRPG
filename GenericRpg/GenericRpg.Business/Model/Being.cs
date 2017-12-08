@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenericRpg.Business.Model.Reports;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -46,8 +47,8 @@ namespace GenericRpg.Business.Model
             random = new Random();
             base.Position = position;
             CurrentWeapon = new Weapon();
-            CurrentWeapon.Damage = 0;
-            CurrentWeapon.Range = 3;
+            CurrentWeapon.Damage = random.Next(1, 2);
+            CurrentWeapon.Range = random.Next(4,10);
             CurrentWeapon.Name = "Hands";
 
             base.Attributes = new Attributes();
@@ -65,45 +66,53 @@ namespace GenericRpg.Business.Model
             IsALivingBeing = true;
         }
 
-        public override void DoAnythingYoucanDoOrWantTo(Phase phase)
+        public override ActionReport DoAnythingYoucanDoOrWantTo(Phase phase)
         {
-            DecideWhatTodo(phase);
+           return DecideWhatTodo(phase);
         }
 
-        
+        int sameTargetIteration = 0;
+        int currentActionLimitation = 0;
 
         /// <summary>
         /// The phase calls this, after an universal moment of time has passed
         /// </summary>
         /// <param name="phase"></param>
-        public void DecideWhatTodo(Phase phase)
+        public ActionReport DecideWhatTodo(Phase phase)
         {
-            // AM I alive?
+            if ( currentActionLimitation == 0) { currentActionLimitation = random.Next(4, 8); }
+             // AM I alive?
             if (this.IsAlive)
             {
                 // Where am I?
                 //Phase phase =  FindOutInWhichPhaseIAm();
                 // Is there anything I can attack? 
 
-                if (CurrentAttackTarget == null || !CurrentAttackTarget.Being.IsAlive)
+                if (CurrentAttackTarget == null || !CurrentAttackTarget.Being.IsAlive || sameTargetIteration > currentActionLimitation)
                 {
                     CurrentAttackTarget = phase.GetLivingBeingClosestTo(this);
+                    sameTargetIteration = 0;
+                    currentActionLimitation = random.Next(4, 8);
+                }
+                else
+                {
+                    sameTargetIteration++;
                 }
                 
                 if (CurrentAttackTarget == null)
                 {
-                    MoveAround(phase);
+                  return  MoveAround(phase);
                 }
                 else
                 {
                     // Am In range?
                     if (AmIInRange(CurrentAttackTarget))
                     {
-                        Attack(CurrentAttackTarget);
+                     return   Attack(CurrentAttackTarget);
                     }
                     else
                     {
-                        MoveToward(CurrentAttackTarget);
+                     return   MoveToward(CurrentAttackTarget);
                     }
                 }
             }
@@ -114,15 +123,17 @@ namespace GenericRpg.Business.Model
                     // if you are dead you keep losing 10 hp
                     // when you have less thatn 200, it will decompose.
                     this.Attributes.Durability -= 10;
+                    return new ActionReport();
                 }
                 else
                 {
                     // do nothing
+                    return new ActionReport();
                 }
             }
         }
 
-        private void MoveAround(Phase phase)
+        private ActionReport MoveAround(Phase phase)
         {
             if (base.Attributes.PossibleMovementUnitWithOneUniversalMovement == null) { throw new InvalidOperationException("This being cannot move, as he has no movement."); }
             int newX = Position.X;
@@ -142,11 +153,11 @@ namespace GenericRpg.Business.Model
             {
                 this.Position = wantedPoint;
             }
-       
-   
+
+            return new ActionReport();
         }
 
-        private void MoveToward(LivingTarget target)
+        private ActionReport MoveToward(LivingTarget target)
         {
             // move towards the enemy some how.
             if (base.Attributes.PossibleMovementUnitWithOneUniversalMovement == null) { throw new InvalidOperationException("This being cannot move, as he has no movement."); }
@@ -165,7 +176,7 @@ namespace GenericRpg.Business.Model
               
                 movementMade++;
             }
-
+            return new ActionReport();
         }
         private int CalculatePositionY(LivingTarget target)
         {
@@ -198,8 +209,10 @@ namespace GenericRpg.Business.Model
             }
         }
 
-        private void Attack(LivingTarget livingTarget)
+        private AttackReport Attack(LivingTarget livingTarget)
         {
+            AttackReport report = new AttackReport();
+            report.attackPath = new Tuple<Point, Point>(this.Position, livingTarget.Being.Position);
             // calcualte
             Being target = livingTarget.Being;
             // first if it hits...
@@ -217,12 +230,15 @@ namespace GenericRpg.Business.Model
                 int dmg = (base.Attributes.Strength.Value / 10 + CurrentWeapon.Damage);
                 dmg = (int)Math.Round(dmg * ((double)random.Next(1, 10) / (double)10));
                 target.Attributes.Durability -= dmg;
+                report.Hits = true;
             }
             else
             {
                 // MISS
+                report.Hits = false;
             }
 
+            return report;
         }
 
         private bool AmIInRange(LivingTarget target)

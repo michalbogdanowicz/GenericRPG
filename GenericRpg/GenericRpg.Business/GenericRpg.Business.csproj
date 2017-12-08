@@ -42,13 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manager\ExistenceManager.cs" />
+    <Compile Include="Model\Reports\ActionReport.cs" />
     <Compile Include="Model\LivingTarget.cs" />
     <Compile Include="Model\Phase.cs" />
     <Compile Include="Model\Existence.cs" />
     <Compile Include="Model\Attributes.cs" />
     <Compile Include="Model\Being.cs" />
+    <Compile Include="Model\Reports\AttackReport.cs" />
     <Compile Include="Model\UniversalObject.cs" />
     <Compile Include="Interface\Position.cs" />
+    <Compile Include="Model\Reports\UniversalTimeUnitPassReport.cs" />
     <Compile Include="Model\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

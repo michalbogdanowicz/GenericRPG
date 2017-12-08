@@ -1,5 +1,6 @@
 ﻿using GenericRpg.Business.Manager;
 using GenericRpg.Business.Model;
+using GenericRpg.Business.Model.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,23 +46,32 @@ namespace GenericRpg.WindowsGUI
 
 
 
-
+        Timer currentTimer = null;
         private void btnAction_Click(object sender, EventArgs e)
         {
-            if (timer1.Enabled) { timer1.Enabled = false; }
+           
+            
             int timeIntervalToSEt = 0;
             if (!int.TryParse(txtEntitiesNumber.Text, out timeIntervalToSEt))
             {
                 MessageBox.Show(String.Format("Please insert a valid integer for the interval {0} - {1}", 0, int.MaxValue));
                 return;
             }
-            timer1.Interval = timeIntervalToSEt;
+        
             if ( currentExistence == null)
             {
                 MessageBox.Show(String.Format("FirstGenerateAnUniverse", 0, int.MaxValue));
                 return;
             }
-            timer1.Enabled = true;
+            if (currentTimer != null)
+            {
+                currentTimer.Tick -= TimerTickEvent;
+                currentTimer.Dispose();
+            }
+            currentTimer = new Timer();
+            currentTimer.Interval = timeIntervalToSEt;
+            currentTimer.Tick += TimerTickEvent;        
+            currentTimer.Enabled = true;
         }
 
 
@@ -98,25 +108,31 @@ namespace GenericRpg.WindowsGUI
                     {
                         Brush brush = GetBrush(universalObject);
                         Point[] points = new Point[4];
-                        int drawingOffSet = 5;
+                        int drawingOffSet = 4;
                         points[0] = new Point(universalObject.Position.X, universalObject.Position.Y);
                         points[1] = new Point(universalObject.Position.X, universalObject.Position.Y + drawingOffSet);
                         points[2] = new Point(universalObject.Position.X + drawingOffSet, universalObject.Position.Y + drawingOffSet);
                         points[3] = new Point(universalObject.Position.X + drawingOffSet, universalObject.Position.Y);
                         e.Graphics.FillPolygon(brush, points);
                     }
+                    foreach (var attacks in LastReport.Attacks)
+                    {
+                        e.Graphics.DrawLine(Pens.Black, attacks.Item1, attacks.Item2);
+                    }
+                        
                 }
             }
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
+        public UniversalTimeUnitPassReport LastReport { get; set; }
+        private void TimerTickEvent(object sender, EventArgs e)
         {
             
           int alive =  currentExistence.Phases.First().GetNumberAlive();
             int dead = statingPopulationNumber - alive;
             lblAlvie.Text = alive.ToString();
             lblDead.Text = dead.ToString();
-            currentExistence.MakeAnUniversalTimeUntiPass();
+            LastReport =  currentExistence.MakeAnUniversalTimeUntiPass();
+   
             panel1.Refresh();
         }
 
@@ -133,7 +149,7 @@ namespace GenericRpg.WindowsGUI
 
         private void btnStopTimer_Click(object sender, EventArgs e)
         {
-            timer1.Enabled = false;
+            currentTimer.Enabled = false;
         }
 
         private void label4_Click(object sender, EventArgs e)

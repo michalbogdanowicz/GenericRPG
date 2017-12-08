@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenericRpg.Business.Model.Reports;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -34,8 +35,10 @@ namespace GenericRpg.Business.Model
 
         public List<UniversalObject> ObjectToRemoveFromExistanceOnNextOccasion { get; set; }
 
-        public void MankeAnUniversalTimeUntiPass()
+        public UniversalTimeUnitPassReport MankeAnUniversalTimeUntiPass()
         {
+            UniversalTimeUnitPassReport universalTimeUnitPassReport = new UniversalTimeUnitPassReport();
+
             if (ObjectToRemoveFromExistanceOnNextOccasion.Count != 0)
             {
                 foreach (UniversalObject universalObject in ObjectToRemoveFromExistanceOnNextOccasion)
@@ -43,20 +46,34 @@ namespace GenericRpg.Business.Model
                     UniversalObjectsInside.Remove(universalObject);
                 }
             }
+
             foreach (UniversalObject universalObject in UniversalObjectsInside)
             {
                 Being being = universalObject as Being;
                 if (being != null)
                 {
-                    if (being.IsALivingBeing && being.IsDecomposed)
+                    if (being.IsALivingBeing )
                     {
-                        ObjectToRemoveFromExistanceOnNextOccasion.Add(universalObject);
+                        if (being.IsAlive) {
+                            universalTimeUnitPassReport.AliveBeings++;
+                        }
+                        if (being.IsDecomposed)
+                        {
+                            ObjectToRemoveFromExistanceOnNextOccasion.Add(universalObject);
+                        }
                     }
+                    
+
                 }
           
-                    universalObject.DoAnythingYoucanDoOrWantTo(this);
-                
+                  ActionReport actionReport = universalObject.DoAnythingYoucanDoOrWantTo(this);
+                AttackReport attackReport = actionReport as AttackReport;
+                if (attackReport != null) {
+                    universalTimeUnitPassReport.Attacks.Add(attackReport.attackPath);
+                }
             }
+
+            return universalTimeUnitPassReport;
         }
 
         internal LivingTarget GetLivingBeingClosestTo(Being callerBeing)
@@ -93,7 +110,7 @@ namespace GenericRpg.Business.Model
         }
 
         private double GetDistanceBetween(Point p1, Point p2) {
-            return Math.Sqrt((p1.X - p2.X) ^ 2 + (p1.Y - p2.Y) ^ 2);
+            return Math.Sqrt(Math.Pow((p1.X - p2.X) ,2) + Math.Pow((p1.Y - p2.Y), 2));
         }
 
         public int GetNumberAlive()
@@ -112,18 +129,24 @@ namespace GenericRpg.Business.Model
 
         internal bool CanIMoveInThePOintPlace(Being being, Point wantedPoint)
         {
-
-            if (being.Position.X < MinPoint.X) { return false; }
-            if (being.Position.X > MaxPoint.X) { return false; }
-            if (being.Position.Y < MinPoint.Y) { return false; }
-            if (being.Position.Y > MaxPoint.Y) { return false; }
-
-            if (this.UniversalObjectsInside.Where(i => i.Position == wantedPoint).FirstOrDefault() != null)
+            if (this.UniversalObjectsInside.Where(i =>DoOverlap( i.Position , wantedPoint)).FirstOrDefault() != null)
             {
                 return false;
             }
             return true;
      
+        }
+
+        private bool DoOverlap(Point lowerBound, Point adversary)
+        {
+
+            Point uppperBound = new Point(lowerBound.X + 4, lowerBound.Y + 4);
+
+            if (adversary.X >= lowerBound.X && adversary.X <= uppperBound.X &&
+            adversary.Y >= lowerBound.Y && adversary.Y <= uppperBound.Y) { return true; }
+
+
+            return false;
         }
     }
 }

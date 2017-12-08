@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnGenerateUniverse = new System.Windows.Forms.Button();
             this.txtEntitiesNumber = new System.Windows.Forms.TextBox();
@@ -38,7 +37,6 @@
             this.btnDraw = new System.Windows.Forms.Button();
             this.txtTimerInterval = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnStopTimer = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.lblAlvie = new System.Windows.Forms.Label();
@@ -117,10 +115,6 @@
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Timer Interval";
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // btnStopTimer
             // 
@@ -205,7 +199,6 @@
         private System.Windows.Forms.Button btnDraw;
         private System.Windows.Forms.TextBox txtTimerInterval;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnStopTimer;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblAlvie;
