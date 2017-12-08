@@ -26,13 +26,21 @@ namespace GenericRpg.Business.Manager
             if (minX < 1) { throw new ArgumentException("Min X can't be less than 1"); }
             if (minY < 1) { throw new ArgumentException("Min Y can't be less than 1"); }
 
-            existence.Phases.Add(new Phase("Real", PhaseType.Real, new Point(0,0), new Point(maxX,maxY)));
+            existence.Phases.Add(new Phase("Real", PhaseType.Real, new Point(minX, minY), new Point(maxX, maxY)));
             for (int i = 0; i < numberOfEntities; i++)
             {
-                int posX = random.Next(1, maxX);
-                int posY = random.Next(1, maxY);
+                int posX = 0;
+                int posY = 0;
+                do {
+                    posX = random.Next(minX, maxX);
+                    posY = random.Next(minX, maxY);
+                }
+                while (existence.Phases.First().UniversalObjectsInside.Where(j => j.Position == new Point(posX, posY)).FirstOrDefault() != null);
 
-                existence.Phases.First().UniversalObjectsInside.Add(new Being(new Point(posX, posY)));
+                    existence.Phases.First().UniversalObjectsInside.Add(new Being(new Point(posX, posY)));
+
+
+
             }
             return existence;
         }

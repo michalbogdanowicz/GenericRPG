@@ -137,12 +137,13 @@ namespace GenericRpg.Business.Model
                 default: throw new InvalidOperationException("Not Expected!");
             }
 
-            this.Position = new Point(newX, newY);
-
-            if (Position.X < phase.MinPoint.X) { Position = new Point(phase.MinPoint.X, Position.Y); }
-            if (Position.X > phase.MaxPoint.X) { Position = new Point(phase.MaxPoint.X, Position.Y); }
-            if (Position.Y < phase.MinPoint.Y) { Position = new Point(Position.X, phase.MinPoint.Y); }
-            if (Position.Y > phase.MaxPoint.Y) { Position = new Point(Position.X, phase.MaxPoint.Y); }
+            Point wantedPoint = new Point(newX, newY);
+            if (phase.CanIMoveInThePOintPlace(this,wantedPoint))
+            {
+                this.Position = wantedPoint;
+            }
+       
+   
         }
 
         private void MoveToward(LivingTarget target)
@@ -156,7 +157,12 @@ namespace GenericRpg.Business.Model
             {
                 newX = CalculatePositionX(target);
                 newY = CalculatePositionY(target);
-                this.Position = new Point(newX, newY);
+                Point wantedPoint = new Point(newX, newY);
+                if (target.PhaseOfExistance.CanIMoveInThePOintPlace(this, wantedPoint))
+                {
+                    this.Position = wantedPoint;
+                }
+              
                 movementMade++;
             }
 

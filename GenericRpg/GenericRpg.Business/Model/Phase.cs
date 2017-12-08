@@ -84,6 +84,7 @@ namespace GenericRpg.Business.Model
                 LivingTarget target = new LivingTarget();
                 target.Being = closest;
                 target.Distance = closestDistance;
+                target.PhaseOfExistance = this;
                 return target;
             }
 
@@ -107,6 +108,22 @@ namespace GenericRpg.Business.Model
                 }
             }
             return count;
+        }
+
+        internal bool CanIMoveInThePOintPlace(Being being, Point wantedPoint)
+        {
+
+            if (being.Position.X < MinPoint.X) { return false; }
+            if (being.Position.X > MaxPoint.X) { return false; }
+            if (being.Position.Y < MinPoint.Y) { return false; }
+            if (being.Position.Y > MaxPoint.Y) { return false; }
+
+            if (this.UniversalObjectsInside.Where(i => i.Position == wantedPoint).FirstOrDefault() != null)
+            {
+                return false;
+            }
+            return true;
+     
         }
     }
 }

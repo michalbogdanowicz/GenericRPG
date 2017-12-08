@@ -10,5 +10,6 @@ namespace GenericRpg.Business.Model
     {
         public Being  Being { get; set; }
         public double Distance { get; set; }
+        public Phase PhaseOfExistance { get; set; }
     }
 }
