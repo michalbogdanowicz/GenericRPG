@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class thigs : MonoBehaviour {
+public class Things : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
