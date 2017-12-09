@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using GenericRpg.Business.Model.Living;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanBehaviour : MonoBehaviour
+public class IntelligentBeingMortal : Human
 {
 
     bool foundhuman = false;
@@ -16,14 +17,14 @@ public class HumanBehaviour : MonoBehaviour
         direction = GetNewDirection();
     }
 
-    HumanBehaviour GetHumanTarget() {
+    IntelligentBeingMortal GetHumanTarget() {
 
         float minDistanceSoFar = float.MaxValue;
-        HumanBehaviour chosenTarget = null;
+        IntelligentBeingMortal chosenTarget = null;
         foreach (var obj in GameObject.FindObjectsOfType(this.GetType()))
         {
 
-            HumanBehaviour currentlyChecked = (HumanBehaviour)obj;
+            IntelligentBeingMortal currentlyChecked = (IntelligentBeingMortal)obj;
             if (Vector3.Distance(transform.position, currentlyChecked.transform.position) < minDistanceSoFar)
             {
 
@@ -41,7 +42,7 @@ public class HumanBehaviour : MonoBehaviour
         itertionNumber++;
         foundhuman = false;
         
-        HumanBehaviour target = GetHumanTarget();
+        IntelligentBeingMortal target = GetHumanTarget();
         
 
         if (target != null) {
@@ -69,11 +70,7 @@ public class HumanBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Collider2D collider  = collision.collider;
-        Debug.Log("Managed to collide!");
-        if (collider != null && collider.gameObject != null) {
-            Object.Destroy(collider.gameObject);
-        }
+
     }
 
 

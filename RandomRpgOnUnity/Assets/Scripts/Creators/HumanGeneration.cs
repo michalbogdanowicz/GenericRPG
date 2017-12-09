@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Scripts.Creators
-{
+
     class HumanGeneration
     {
         public void CreateObject(string prefabName)
@@ -14,4 +13,4 @@ namespace Assets.Scripts.Creators
                GameObject.Instantiate(Resources.Load(prefabName)) as GameObject;
         }
     }
-}
+

@@ -58,7 +58,6 @@
     <Compile Include="Model\Things\Thing.cs" />
     <Compile Include="Model\Things\Tree.cs" />
     <Compile Include="Model\UniversalObject.cs" />
-    <Compile Include="Interface\Position.cs" />
     <Compile Include="Model\Reports\UniversalTimeUnitPassReport.cs" />
     <Compile Include="Model\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
