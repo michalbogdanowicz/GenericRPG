@@ -42,13 +42,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manager\ExistenceManager.cs" />
+    <Compile Include="Model\Living\Beast.cs" />
+    <Compile Include="Model\Living\Human.cs" />
     <Compile Include="Model\Reports\ActionReport.cs" />
     <Compile Include="Model\LivingTarget.cs" />
     <Compile Include="Model\Phase.cs" />
     <Compile Include="Model\Existence.cs" />
     <Compile Include="Model\Attributes.cs" />
-    <Compile Include="Model\Being.cs" />
+    <Compile Include="Model\Living\Being.cs" />
     <Compile Include="Model\Reports\AttackReport.cs" />
+    <Compile Include="Model\Things\Mineral.cs" />
+    <Compile Include="Model\Things\Thing.cs" />
+    <Compile Include="Model\Things\Tree.cs" />
     <Compile Include="Model\UniversalObject.cs" />
     <Compile Include="Interface\Position.cs" />
     <Compile Include="Model\Reports\UniversalTimeUnitPassReport.cs" />

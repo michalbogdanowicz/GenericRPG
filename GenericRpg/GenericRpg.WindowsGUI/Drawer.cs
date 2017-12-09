@@ -1,4 +1,5 @@
 ﻿using GenericRpg.Business.Model;
+using GenericRpg.Business.Model.Living;
 using GenericRpg.Business.Model.Reports;
 using System;
 using System.Collections.Generic;

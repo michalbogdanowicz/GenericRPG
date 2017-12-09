@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GenericRpg.Business.Model
+namespace GenericRpg.Business.Model.Living
 {
     public class Being : UniversalObject
     {
