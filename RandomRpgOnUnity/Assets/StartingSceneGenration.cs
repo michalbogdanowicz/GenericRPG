@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Things : MonoBehaviour {
+public class StartingSceneGenration : MonoBehaviour {
 
-    GameObject xxx;
+
+    private void Awake()
+    {
+        
+    }
 
     // Use this for initialization
     void Start () {

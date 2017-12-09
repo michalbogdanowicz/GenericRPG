@@ -5,10 +5,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace GenericRpg.Business.Model
 {
-    public class UniversalObject : IPosition
+    public class UniversalObject : MonoBehaviour, IPosition 
     {
       public Point Position { get; set; }
 

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomRpgOnUnity", "RandomRpgOnUnity.csproj", "{88824E7D-8140-F184-ACCD-31489C350869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericRpg.Business", "..\GenericRpg\GenericRpg.Business\GenericRpg.Business.csproj", "{E46E0C6C-A069-4F5F-91BD-E8426D21C358}"
@@ -24,8 +22,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {94D937EB-FECC-441A-B197-57FDCB4C6924}
 	EndGlobalSection
 EndGlobal
