@@ -1,7 +1,5 @@
-﻿using GenericRpg.Business.Model.Reports;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace GenericRpg.Business.Model.Living
@@ -31,22 +29,29 @@ namespace GenericRpg.Business.Model.Living
                 return base.Attributes.Durability <= -200;
             }
         }
+
+        protected void Decompose()
+        {
+            this.Attributes.Durability -= 1;
+        }
         public bool NeedToEat { get; set; }
 
         public decimal MassToEatDaily { get; set; }
 
         public bool IsALivingBeing { get; set; }
         public Weapon CurrentWeapon { get; set; }
-        private Random random;
 
-  
-        void Awake()
+
+
+        public void Start()
         {
-            random = new Random();
-            CurrentWeapon = new Weapon();
-            CurrentWeapon.Damage = random.Next(1, 2);
-            CurrentWeapon.Range = random.Next(5, 10);
-            CurrentWeapon.Name = "Hands";
+            CurrentWeapon = new Weapon
+            {
+                Damage = UnityEngine.Random.Range(1, 2),
+                Range = UnityEngine.Random.Range(5, 10),
+                StandardAttacksPerSecond = UnityEngine.Random.Range(2, 3),
+                Name = "Hands"
+            };
 
             base.Attributes = new Attributes();
             base.Attributes.Heigt = 1.80m;// m stands for decimal not for meters.
@@ -58,7 +63,7 @@ namespace GenericRpg.Business.Model.Living
             base.Attributes.Reactivity = 10;
             base.Attributes.Strength = 10;
             base.Attributes.Durability = 10;
-            base.Attributes.PossibleMovementUnitWithOneUniversalMovement = 4;
+            base.Attributes.Speed = 0.02f;
 
             IsALivingBeing = true;
         }
@@ -68,8 +73,6 @@ namespace GenericRpg.Business.Model.Living
             DecideWhatTodo();
         }
 
-        int sameTargetIteration = 0;
-        int currentActionLimitation = 0;
 
         /// <summary>
         /// The phase calls this, after an universal moment of time has passed
@@ -77,7 +80,7 @@ namespace GenericRpg.Business.Model.Living
         /// <param name="phase"></param>
         public virtual void DecideWhatTodo()
         {
-       
+
             //if (currentActionLimitation == 0) { currentActionLimitation = random.Next(4, 8); }
             //// AM I alive?
             //if (this.IsAlive)
@@ -176,38 +179,39 @@ namespace GenericRpg.Business.Model.Living
             //}
             //return new ActionReport();
         }
-     
 
-        private void Attack(Object taget)
+
+        public void Attack(UniversalObject target)
         {
-            ////AttackReport report = new AttackReport();
-            ////report.attackPath = new Tuple<Point, Point>(this.Position, livingTarget.Being.Position);
-            ////// calcualte
-            ////Being target = livingTarget.Being;
-            //// first if it hits...
-            //// % based on attributes
-            //// of myself and 
-            //int chanceOfHitting = (base.Attributes.Reactivity.Value - (target.Attributes.Reactivity.Value / 2));
-            //chanceOfHitting = chanceOfHitting < 25 ? 25 : chanceOfHitting;
-            //// bonuses and other stuff?!?!?!!???
-            ////not now it seems.. // TODO weapon bonuses, classees, if implemented, and other stufff
+            //AttackReport report = new AttackReport();
+            //report.attackPath = new Tuple<Point, Point>(this.Position, livingTarget.Being.Position);
+            //// calcualte
+            //Being target = livingTarget.Being;
+            // first if it hits...
+            // % based on attributes
+            // of myself and 
+            int chanceOfHitting = (base.Attributes.Reactivity.Value - (target.Attributes.Reactivity.Value / 2));
+            chanceOfHitting = chanceOfHitting < 25 ? 25 : chanceOfHitting;
+            // bonuses and other stuff?!?!?!!???
+            //not now it seems.. // TODO weapon bonuses, classees, if implemented, and other stufff
 
-            //int attempt = random.Next(99) + 1;
-            //if (attempt < chanceOfHitting)
-            //{
-            //    // HIT
-            //    int dmg = (base.Attributes.Strength.Value / 10 + CurrentWeapon.Damage);
-            //    dmg = (int)Math.Round(dmg * ((double)random.Next(1, 10) / (double)10));
-            //    target.Attributes.Durability -= dmg;
-            //    report.Hits = true;
-            //}
-            //else
-            //{
-            //    // MISS
-            //    report.Hits = false;
-            //}
+            int attempt = UnityEngine.Random.Range(1,100);
+            if (attempt < chanceOfHitting)
+            {
+                // HIT
+                int dmg = (base.Attributes.Strength.Value / 10 + CurrentWeapon.Damage);
+                dmg = (int)Math.Round(dmg * ((double)UnityEngine.Random.Range(1, 10) / (double)10));
+                target.Attributes.Durability -= dmg;
+                target.ShowHit();
+                //  report.Hits = true;
+            }
+            else
+            {
+                // MISS
+                ///  report.Hits = false;
+            }
 
-            //return report;
+            //  return report;
         }
 
         //private bool AmIInRange(LivingTarget target)

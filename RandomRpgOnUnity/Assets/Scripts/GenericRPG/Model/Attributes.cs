@@ -38,7 +38,7 @@ namespace GenericRpg.Business.Model
         /// <summary>
         /// Thsi is the amount of units 
         /// </summary>
-        public int? PossibleMovementUnitWithOneUniversalMovement { get; set; }
+        public float? Speed { get; set; }
         /// <summary>
         /// In Meters
         /// </summary>

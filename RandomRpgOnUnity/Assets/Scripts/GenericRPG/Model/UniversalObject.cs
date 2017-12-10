@@ -22,5 +22,9 @@ namespace GenericRpg.Business.Model
         
         }
 
+        public virtual void ShowHit()
+        {
+           
+        }
     }
 }
