@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GenericRpg.Business.Model.Living
 {
- 
+
 
     public class Human : Being
     {
@@ -54,7 +54,8 @@ namespace GenericRpg.Business.Model.Living
             }
         }
 
-        private float MovementSpeed() {
+        private float MovementSpeed()
+        {
             return SpeedModifier * base.Attributes.Speed.Value;
         }
 
@@ -184,6 +185,12 @@ namespace GenericRpg.Business.Model.Living
                         Mine(mineralTarget.Mineral);
                         gatheringResetTimer = Time.time + 2f; // every 2 seconds 1 peace of somehting. Need to add a level up. for this skill.
                     }
+
+                    if (base.Tribe != null && resourcesCarried.Copper > 10 && resourcesCarried.Iron > 10 && resourcesCarried.Wood > 10)
+                    {
+                        DepositMatsToTribe();
+                    }
+
                 }
                 else
                 {
@@ -196,7 +203,14 @@ namespace GenericRpg.Business.Model.Living
             }
         }
 
-        private void MoveTo(Vector2 target) {
+        private void DepositMatsToTribe()
+        {
+            this.Tribe.Stockpitle.AddResources(this.resourcesCarried);
+            this.resourcesCarried.Empty();
+        }
+
+        private void MoveTo(Vector2 target)
+        {
             transform.position = Vector2.MoveTowards(transform.position, target, MovementSpeed());
         }
 

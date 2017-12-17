@@ -18,9 +18,11 @@ namespace Assets.Scripts.GenericRPG.Global
             this.Id = id;
             this.Color = color;
             this.TeamPosition = teamPosition;
+            Stockpitle = new Stockpile();
         }
 
         public Vector3 TeamPosition { get; set; }
+        public Stockpile Stockpitle;
 
         public override bool Equals(object obj)
         {
@@ -33,6 +35,8 @@ namespace Assets.Scripts.GenericRPG.Global
             if ( this.Id == tribe.Id) { return true; }
             return false;
         }
+
+      
 
         public override int GetHashCode()
         {

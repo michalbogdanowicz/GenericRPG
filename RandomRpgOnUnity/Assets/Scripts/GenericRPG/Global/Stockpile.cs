@@ -10,5 +10,19 @@ namespace Assets.Scripts.GenericRPG.Global
         public long Wood = 0;
         public long Iron = 0;
         public long Copper = 0;
+
+        public void Empty() {
+            Wood = 0;
+            Iron = 0;
+            Copper = 0;
+        }
+
+        public void AddResources(Stockpile stockpile) {
+            Wood += stockpile.Wood;
+            Wood += stockpile.Iron;
+            Copper += stockpile.Copper;
+        }
+
+
     }
 }
