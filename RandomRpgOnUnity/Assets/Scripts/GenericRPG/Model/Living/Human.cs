@@ -177,14 +177,14 @@ namespace GenericRpg.Business.Model.Living
                 case ActionChosen.ReactToEnemy: ReactToEnemy(); break;
                 case ActionChosen.ReactToBuildingNeed: throw new NotImplementedException("Building not implemented"); break;
                 case ActionChosen.ReactToCraftingNeed: throw new NotImplementedException("Crafting not implemented"); break;
-                case ActionChosen.ReactToGathering: Gather(); break;
+                case ActionChosen.ReactToGathering: ReactToGather(); break;
                 default: throw new NotImplementedException(String.Format("This action is not implemnted yet : {0}", actionChosen.ToString()));
             }
         }
 
         private float gatheringResetTimer = 0;
 
-        private void Gather()
+        private void ReactToGather()
         {
             if (mineralTarget != null && mineralTarget.Mineral != null && mineralTarget.Mineral)
             {
