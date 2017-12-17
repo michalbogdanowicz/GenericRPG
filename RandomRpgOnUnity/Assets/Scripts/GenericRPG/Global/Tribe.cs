@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.GenericRPG.Global
 {
@@ -13,10 +14,13 @@ namespace Assets.Scripts.GenericRPG.Global
         /// </summary>
         public int Id { get; set; }
 
-        public Tribe(int id, UnityEngine.Color color) {
+        public Tribe(int id, UnityEngine.Color color, Vector3 teamPosition) {
             this.Id = id;
             this.Color = color;
+            this.TeamPosition = teamPosition;
         }
+
+        public Vector3 TeamPosition { get; set; }
 
         public override bool Equals(object obj)
         {

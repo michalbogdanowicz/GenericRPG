@@ -644,7 +644,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 53
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -713,15 +713,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de5fb8634dfb9746b61a81751895f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tribe1Color: {r: 0.16803634, g: 0.5990424, b: 0.61764705, a: 1}
+  Tribe2Color: {r: 0.27595142, g: 0.14273356, b: 0.8088235, a: 1}
+  Tribe3Color: {r: 0.33088237, g: 0.1119161, b: 0.1119161, a: 1}
+  Tribe4Color: {r: 0.03973833, g: 0.1544118, b: 0.054764524, a: 1}
+  Tribe5Color: {r: 0.26443556, g: 0.49264705, b: 0.4171012, a: 1}
+  Tribe6Color: {r: 0.53845155, g: 0.86764705, b: 0.31260812, a: 1}
+  Tribe7Color: {r: 0.8251044, g: 0.9411765, b: 0.4152249, a: 1}
+  Tribe8Color: {r: 0.78676474, g: 0.5692474, b: 0.45123273, a: 1}
+  Tribe9Color: {r: 0.06487889, g: 0.43066153, b: 0.5514706, a: 1}
+  Tribe10Color: {r: 0.64122117, g: 0.12727074, b: 0.78676474, a: 1}
   WhatToPlace: {fileID: 1371351913031500, guid: 5aedf2024f7d9c7418229790e8c0d699,
     type: 2}
-  MinimumAmount: 1000
-  MaximumAmount: 1000
+  MinimumAmount: 50
+  MaximumAmount: 50
   PositionXStart: -70
   PositionXEnd: 70
   PositionYStart: -50
   PositionYEnd: 50
   HowManyTribes: 3
+  GenerationMode: 0
 --- !u!4 &1996377369
 Transform:
   m_ObjectHideFlags: 0

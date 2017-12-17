@@ -8,18 +8,13 @@ using UnityEngine;
 
 namespace GenericRpg.Business.Model.Living
 {
-    public class ResourcesCarried
-    {
-        public long Wood = 0;
-        public long Iron = 0;
-        public long Copper = 0;
-    }
+ 
 
     public class Human : Being
     {
 
         float attackResetTimer = 0;
-        public ResourcesCarried resourcesCarried;
+        public Stockpile resourcesCarried;
 
         Vector2 direction;
         private SpriteRenderer currentRenderer;
@@ -34,7 +29,7 @@ namespace GenericRpg.Business.Model.Living
             base.Start();
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
             ResetSprite();
-            resourcesCarried = new ResourcesCarried();
+            resourcesCarried = new Stockpile();
         }
 
         private class HumanTarget
