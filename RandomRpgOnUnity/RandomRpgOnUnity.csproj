@@ -223,6 +223,7 @@
     <Compile Include="Assets\Scripts\CameraScritpt.cs" />
     <Compile Include="Assets\Scripts\Creators\HumanGeneration.cs" />
     <Compile Include="Assets\Scripts\Creators\IntelligentBeingMortal.cs" />
+    <Compile Include="Assets\Scripts\GenericRPG\Global\WorldObjectsReferenceHelper.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Attributes.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Living\Beast.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Living\Being.cs" />

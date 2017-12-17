@@ -13,7 +13,7 @@ namespace GenericRpg.Business.Model.Things
 
     }
 
-    class Mineral : UniversalObject
+  public  class Mineral : UniversalObject
     {
       public  MineralType Type;
         public long Amount;

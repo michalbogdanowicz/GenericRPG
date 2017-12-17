@@ -1,4 +1,7 @@
-﻿using GenericRpg.Business.Model.Living;
+﻿using Assets.Scripts.GenericRPG.Global;
+using GenericRpg.Business.Model.Living;
+using GenericRpg.Business.Model.Things;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +22,7 @@ public class StartingSceneGenration : MonoBehaviour
         TenTribes = 10
     }
 
+
     public GameObject WhatToPlace;
     public int MinimumAmount;
     public int MaximumAmount;
@@ -32,6 +36,7 @@ public class StartingSceneGenration : MonoBehaviour
     {
         int numofTribes = (int)HowManyTrybes;
         int humanIteration = 0;
+        WorldObjectsReferenceHelper worldObjectsReferenceHelper = WorldObjectsReferenceHelper.Current();
         foreach (Vector3 position in GeneratePositions())
         {
             MonoBehaviour toPlaceScript = WhatToPlace.GetComponent<MonoBehaviour>();
@@ -48,7 +53,7 @@ public class StartingSceneGenration : MonoBehaviour
                     {
                         humanIteration = 0;
                     }
-                    
+
                     switch (humanIteration)
                     {
                         case 0: humanScript.Tribe = Tribe.Tribe1; break;
@@ -69,7 +74,28 @@ public class StartingSceneGenration : MonoBehaviour
 
             }
 
-            Instantiate(WhatToPlace, position, Quaternion.identity);
+            GameObject theObj = Instantiate(WhatToPlace, position, Quaternion.identity);
+            if (theObj.GetComponent<Human>() != null)
+            {
+                worldObjectsReferenceHelper.Humans.Add(theObj);
+            }
+
+
+
+        }
+
+        AddExistingMinerals();
+    }
+
+    private void AddExistingMinerals()
+    {
+        var objects = GameObject.FindObjectsOfType<Mineral>();
+        foreach (var element in objects)
+        {
+            if (element != null)
+            {
+                WorldObjectsReferenceHelper.Current().Minerals.Add(element.gameObject);
+            }
         }
     }
 
@@ -82,11 +108,11 @@ public class StartingSceneGenration : MonoBehaviour
 
     Vector3[] GeneratePositions()
     {
-        int num = Random.Range(MinimumAmount, MaximumAmount);
+        int num = UnityEngine.Random.Range(MinimumAmount, MaximumAmount);
         Vector3[] array = new Vector3[num];
         for (int i = 0; i < num; i++)
         {
-            array[i] = new Vector3(Random.Range(PositionXStart, PositionXEnd), Random.Range(PositionYStart, PositionYEnd), 0);
+            array[i] = new Vector3(UnityEngine.Random.Range(PositionXStart, PositionXEnd), UnityEngine.Random.Range(PositionYStart, PositionYEnd), 0);
         }
 
         return array;

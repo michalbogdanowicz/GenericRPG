@@ -1,4 +1,5 @@
-﻿using GenericRpg.Business.Model.Things;
+﻿using Assets.Scripts.GenericRPG.Global;
+using GenericRpg.Business.Model.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace GenericRpg.Business.Model.Living
     {
         float attackResetTimer = 0;
         public ResourcesCarried resourcesCarried;
-        int itertionNumber = 0;
         public Sprite DamagedHuman;
         public Sprite NormalHuman;
         public Sprite Tribe1Human;
@@ -53,22 +53,26 @@ namespace GenericRpg.Business.Model.Living
         {
             float minDistanceSoFar = float.MaxValue;
             HumanTarget chosenTarget = null;
-            foreach (var obj in GameObject.FindObjectsOfType(this.GetType()))
+
+            
+            foreach (GameObject xxx in WorldObjectsReferenceHelper.Current().Humans)
             {
-
-                Human currentlyChecked = obj as Human;
-                if (currentlyChecked != null && currentlyChecked != this && currentlyChecked.Tribe != this.Tribe && currentlyChecked.IsAlive)
+                if (xxx != null )
                 {
-                    float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
-                    if (distance < minDistanceSoFar && distance < maxdistance)
+                    Human currentlyChecked = xxx.GetComponent<Human>();
+                    if (currentlyChecked != null && currentlyChecked != this && currentlyChecked.Tribe != this.Tribe && currentlyChecked.IsAlive)
                     {
-
-                        minDistanceSoFar = distance;
-                        chosenTarget = new HumanTarget
+                        float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
+                        if (distance < minDistanceSoFar && distance < maxdistance)
                         {
-                            Distance = minDistanceSoFar,
-                            Human = currentlyChecked
-                        };
+
+                            minDistanceSoFar = distance;
+                            chosenTarget = new HumanTarget
+                            {
+                                Distance = minDistanceSoFar,
+                                Human = currentlyChecked
+                            };
+                        }
                     }
                 }
             }
@@ -149,6 +153,8 @@ namespace GenericRpg.Business.Model.Living
             }
             // 
             Act();
+       
+            
         }
 
         private void Act()
@@ -224,40 +230,36 @@ namespace GenericRpg.Business.Model.Living
                 WhenToThinkAboutDecision = Time.time - 1; // reset the choose who to rape.
             }
         }
+        private float timeToChooseAnotherDirection = 0;
 
         private void WalkAround()
         {
-
-            if (itertionNumber > 100)
+            if (timeToChooseAnotherDirection < Time.time)
             {
-                direction = GetNewDirection();
-                itertionNumber = 0;
+                direction = UnityEngine.Random.insideUnitCircle.normalized;
+                timeToChooseAnotherDirection = Time.time + UnityEngine.Random.Range(0.8f, 2);
             }
-            else
-            {
-                itertionNumber++;
-            }
-
+    
             transform.Translate(direction * Time.deltaTime);
         }
 
         private ActionChosen ChooseAnAction()
         {
-            humanTarget = GetHumanTarget(30); // 30 RANGE, DUNNO IF THAT IS GOOD
+            humanTarget = GetHumanTarget(15); // 30 RANGE, DUNNO IF THAT IS GOOD
             if ( humanTarget != null) { return ActionChosen.ReactToEnemy; }
             mineralTarget = GetMineralTarget();
             if ( mineralTarget != null) { return ActionChosen.ReactToGathering; }
-            throw new InvalidOperationException();
+            return ActionChosen.Wander;
 
         }
 
         private MineralTarget GetMineralTarget()
         {
             MineralTarget target = null;
-            foreach (var obj in GameObject.FindObjectsOfType(typeof (Mineral)))
+            foreach (var obj in WorldObjectsReferenceHelper.Current().Minerals)
             {
 
-                Mineral currentlyChecked = obj as Mineral;
+                Mineral currentlyChecked = obj.GetComponent<Mineral>();
                 float minDistanceSoFar = float.MaxValue;
                 if (currentlyChecked != null && currentlyChecked != this )
                 {
@@ -265,7 +267,7 @@ namespace GenericRpg.Business.Model.Living
                     if (distance < minDistanceSoFar)
                     {
                         minDistanceSoFar = distance;
-                        mineralTarget = new MineralTarget
+                        target = new MineralTarget
                         {
                             Distance = distance,
                             Mineral = currentlyChecked
