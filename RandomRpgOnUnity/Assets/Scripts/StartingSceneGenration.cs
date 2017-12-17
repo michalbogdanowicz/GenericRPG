@@ -1,10 +1,23 @@
-﻿using System.Collections;
+﻿using GenericRpg.Business.Model.Living;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StartingSceneGenration : MonoBehaviour
 {
-
+    public enum TribesToGenerate
+    {
+        BattleRoyale = 0,
+        TwoTribes = 2,
+        ThreeTribes = 3,
+        FourTribes = 4,
+        FiveTribes = 5,
+        SixTribes = 6,
+        SevenTribes = 7,
+        EightTribes = 8,
+        NineTribes = 9,
+        TenTribes = 10
+    }
 
     public GameObject WhatToPlace;
     public int MinimumAmount;
@@ -13,12 +26,50 @@ public class StartingSceneGenration : MonoBehaviour
     public int PositionXEnd;
     public int PositionYStart;
     public int PositionYEnd;
+    public TribesToGenerate HowManyTrybes;
     // Use this for initialization
     void Start()
     {
-       foreach ( Vector3 elemet in  GetPositions())
-        { 
-                Instantiate(WhatToPlace, elemet, Quaternion.identity);
+        int numofTribes = (int)HowManyTrybes;
+        int humanIteration = 0;
+        foreach (Vector3 position in GeneratePositions())
+        {
+            MonoBehaviour toPlaceScript = WhatToPlace.GetComponent<MonoBehaviour>();
+            Human humanScript = toPlaceScript as Human;
+            if (humanScript != null)
+            {
+                if (HowManyTrybes == TribesToGenerate.BattleRoyale)
+                {
+                    humanScript.Tribe = Tribe.NoTribe;
+                }
+                else
+                {
+                    if (humanIteration == numofTribes)
+                    {
+                        humanIteration = 0;
+                    }
+                    
+                    switch (humanIteration)
+                    {
+                        case 0: humanScript.Tribe = Tribe.Tribe1; break;
+                        case 1: humanScript.Tribe = Tribe.Tribe2; break;
+                        case 2: humanScript.Tribe = Tribe.Tribe3; break;
+                        case 3: humanScript.Tribe = Tribe.Tribe4; break;
+                        case 4: humanScript.Tribe = Tribe.Tribe5; break;
+                        case 5: humanScript.Tribe = Tribe.Tribe6; break;
+                        case 6: humanScript.Tribe = Tribe.Tribe7; break;
+                        case 7: humanScript.Tribe = Tribe.Tribe8; break;
+                        case 8: humanScript.Tribe = Tribe.Tribe9; break;
+                        case 9: humanScript.Tribe = Tribe.Tribe10; break;
+                        default: throw new System.Exception("Somethhing went wrong");
+                    }
+                    humanIteration++;
+                }
+
+
+            }
+
+            Instantiate(WhatToPlace, position, Quaternion.identity);
         }
     }
 
@@ -29,15 +80,15 @@ public class StartingSceneGenration : MonoBehaviour
     }
 
 
-    Vector3 [] GetPositions()
+    Vector3[] GeneratePositions()
     {
         int num = Random.Range(MinimumAmount, MaximumAmount);
-    Vector3[] array  = new Vector3 [num];
+        Vector3[] array = new Vector3[num];
         for (int i = 0; i < num; i++)
         {
-            array[i] = new  Vector3(Random.Range(PositionXStart,PositionXEnd), Random.Range(PositionYStart, PositionYEnd), 0);
+            array[i] = new Vector3(Random.Range(PositionXStart, PositionXEnd), Random.Range(PositionYStart, PositionYEnd), 0);
         }
-      
+
         return array;
     }
 }

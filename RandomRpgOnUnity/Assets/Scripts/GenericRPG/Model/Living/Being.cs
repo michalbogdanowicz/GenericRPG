@@ -4,8 +4,24 @@ using System.Text;
 
 namespace GenericRpg.Business.Model.Living
 {
+    public enum Tribe {
+        NoTribe = 0,
+        Tribe1 = 1,
+        Tribe2 = 2,
+        Tribe3 = 3,
+        Tribe4 = 4,
+        Tribe5 = 5,
+        Tribe6 = 6,
+        Tribe7 = 7,
+        Tribe8 = 8,
+        Tribe9 = 9,
+        Tribe10 = 10
+    }
+
     public class Being : UniversalObject
     {
+        public Tribe Tribe ;
+
         public bool IsAlive
         {
             get
@@ -64,8 +80,8 @@ namespace GenericRpg.Business.Model.Living
             base.Attributes.Strength = 10;
             base.Attributes.Durability = 10;
             base.Attributes.Speed = 0.02f;
-
             IsALivingBeing = true;
+            //this.Tribe = Tribe.NoTribe;
         }
 
         public override void DoAnythingYoucanDoOrWantTo()

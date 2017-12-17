@@ -99,7 +99,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e672412c2879140abc37d18a4da3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needtoGoWhile: 0
+  Tribe: 4
+  DamagedHuman: {fileID: 21300000, guid: 10977139516d1f04f8707800450f27c8, type: 3}
+  NormalHuman: {fileID: 21300000, guid: eae80652bff02d44f9d10e263b3dedc0, type: 3}
+  Tribe1Human: {fileID: 21300000, guid: 93899d8ecb79b574ea5a5cd5a8c62ebf, type: 3}
+  Tribe2Human: {fileID: 21300000, guid: 14b01207b59a6bf4094c6e135bbbcc55, type: 3}
+  Tribe3Human: {fileID: 21300000, guid: 480bf0acb5a7e9b409dc9cc6892238a9, type: 3}
+  Tribe4Human: {fileID: 21300000, guid: 7ad26e52c7ea22c4f8cc8288043d4096, type: 3}
+  SpeedModifier: 2
 --- !u!212 &212715364568413874
 SpriteRenderer:
   m_ObjectHideFlags: 1
