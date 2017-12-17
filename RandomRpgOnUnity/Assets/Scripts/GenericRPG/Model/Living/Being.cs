@@ -64,9 +64,9 @@ namespace GenericRpg.Business.Model.Living
             CurrentWeapon = new Weapon
             {
                 Damage = UnityEngine.Random.Range(1, 2),
-                Range = UnityEngine.Random.Range(5, 10),
-                StandardAttacksPerSecond = UnityEngine.Random.Range(2, 3),
-                Name = "Hands"
+                Range = 1f,
+                StandardAttacksPerSecond = 2,
+                Name = "Hands/Fists"
             };
 
             base.Attributes = new Attributes();
@@ -109,7 +109,6 @@ namespace GenericRpg.Business.Model.Living
 
         public void Attack(UniversalObject target)
         {
-           
             // first if it hits...
             // % based on attributes
             // of myself and 

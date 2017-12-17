@@ -217,7 +217,7 @@ namespace GenericRpg.Business.Model.Living
         {
             if (humanTarget != null && humanTarget.Human != null && humanTarget.Human.IsAlive)
             {
-                if (humanTarget.Distance < (this.CurrentWeapon.Range * 0.2f))
+                if (humanTarget.Distance < (this.CurrentWeapon.Range))
                 {
                     if (Time.time > attackResetTimer)
                     {
