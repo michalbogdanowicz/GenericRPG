@@ -31,6 +31,7 @@ namespace GenericRpg.Business.Model.Living
         public float SpeedModifier;
         private MineralTarget mineralTarget;
         private ActionChosen actionChosen;
+        public float AgressionRange;
         // Use this for initialization
         new void Start()
         {
@@ -44,17 +45,27 @@ namespace GenericRpg.Business.Model.Living
         {
             public Human Human { get; set; }
             public float Distance { get; set; }
+            public HumanTarget(Human human, float distance)
+            {
+                this.Human = human;
+                this.Distance = distance;
+            }
+
         }
         private class MineralTarget {
             public Mineral Mineral { get; set; }
             public float Distance { get; set; }
+            public MineralTarget(Mineral mineral, float distance)
+            {
+                this.Mineral = mineral;
+                this.Distance = distance;
+            }
         }
-        HumanTarget GetHumanTarget(float maxdistance)
+        private void GetHumanTarget()
         {
             float minDistanceSoFar = float.MaxValue;
-            HumanTarget chosenTarget = null;
+            humanTarget = null;
 
-            
             foreach (GameObject xxx in WorldObjectsReferenceHelper.Current().Humans)
             {
                 if (xxx != null )
@@ -63,20 +74,15 @@ namespace GenericRpg.Business.Model.Living
                     if (currentlyChecked != null && currentlyChecked != this && currentlyChecked.Tribe != this.Tribe && currentlyChecked.IsAlive)
                     {
                         float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
-                        if (distance < minDistanceSoFar && distance < maxdistance)
+                        if (distance < minDistanceSoFar && distance < AgressionRange)
                         {
-
                             minDistanceSoFar = distance;
-                            chosenTarget = new HumanTarget
-                            {
-                                Distance = minDistanceSoFar,
-                                Human = currentlyChecked
-                            };
+                            humanTarget = new HumanTarget(currentlyChecked,minDistanceSoFar);
                         }
                     }
                 }
             }
-            return chosenTarget;
+         
         }
 
         public void ToDamangedHuman()
@@ -245,37 +251,31 @@ namespace GenericRpg.Business.Model.Living
 
         private ActionChosen ChooseAnAction()
         {
-            humanTarget = GetHumanTarget(15); // 30 RANGE, DUNNO IF THAT IS GOOD
+            GetHumanTarget();
             if ( humanTarget != null) { return ActionChosen.ReactToEnemy; }
-            mineralTarget = GetMineralTarget();
+            FindMineralTarget();
             if ( mineralTarget != null) { return ActionChosen.ReactToGathering; }
             return ActionChosen.Wander;
 
         }
 
-        private MineralTarget GetMineralTarget()
+        private void FindMineralTarget()
         {
-            MineralTarget target = null;
+            mineralTarget = null;
+            float minDistanceSoFar = float.MaxValue;
             foreach (var obj in WorldObjectsReferenceHelper.Current().Minerals)
             {
-
                 Mineral currentlyChecked = obj.GetComponent<Mineral>();
-                float minDistanceSoFar = float.MaxValue;
                 if (currentlyChecked != null && currentlyChecked != this )
                 {
                     float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
                     if (distance < minDistanceSoFar)
                     {
                         minDistanceSoFar = distance;
-                        target = new MineralTarget
-                        {
-                            Distance = distance,
-                            Mineral = currentlyChecked
-                        };
+                        mineralTarget = new MineralTarget(currentlyChecked, distance);
                     }
                 }
             }
-            return target;
         }
 
         public override void ShowHit()

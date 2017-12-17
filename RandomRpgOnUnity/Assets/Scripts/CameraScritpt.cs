@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CameraScritpt : MonoBehaviour
 {
-
+    public float ZoomSpeed;
+    public float CameraSpeed;
     // Use this for initialization
     void Start()
     {
-        cameraSpeed = 10f;
+
     }
 
-    float cameraSpeed;
     public Camera camera;
     // Update is called once per frame
     void Update()
@@ -30,7 +30,7 @@ public class CameraScritpt : MonoBehaviour
             }
             if (zAxisValue != 0)
             {
-                camera.orthographicSize -= zAxisValue;
+                camera.orthographicSize -= zAxisValue * ZoomSpeed;
             }
 
             if (xAxisValue != 0f || yAxisValue != 0f)
@@ -42,6 +42,6 @@ public class CameraScritpt : MonoBehaviour
 
     private float ProperChange(float value)
     {
-        return value * Time.deltaTime * cameraSpeed;
+        return value * Time.deltaTime * CameraSpeed;
     }
 }
