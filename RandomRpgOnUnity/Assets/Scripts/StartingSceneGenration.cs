@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class StartingSceneGenration : MonoBehaviour
 {
@@ -21,7 +22,16 @@ public class StartingSceneGenration : MonoBehaviour
         NineTribes = 9,
         TenTribes = 10
     }
-
+    public Color Tribe1Color;
+    public Color Tribe2Color;
+    public Color Tribe3Color;
+    public Color Tribe4Color;
+    public Color Tribe5Color;
+    public Color Tribe6Color;
+    public Color Tribe7Color;
+    public Color Tribe8Color;
+    public Color Tribe9Color;
+    public Color Tribe10Color;
 
     public GameObject WhatToPlace;
     public int MinimumAmount;
@@ -30,61 +40,54 @@ public class StartingSceneGenration : MonoBehaviour
     public int PositionXEnd;
     public int PositionYStart;
     public int PositionYEnd;
-    public TribesToGenerate HowManyTrybes;
+    public TribesToGenerate HowManyTribes;
     // Use this for initialization
     void Start()
     {
-        int numofTribes = (int)HowManyTrybes;
-        int humanIteration = 0;
         WorldObjectsReferenceHelper worldObjectsReferenceHelper = WorldObjectsReferenceHelper.Current();
+        GenerateTribes();
+        int numofTribes = (int)HowManyTribes;
+        int humanIteration = 1;
+
         foreach (Vector3 position in GeneratePositions())
         {
-            MonoBehaviour toPlaceScript = WhatToPlace.GetComponent<MonoBehaviour>();
-            Human humanScript = toPlaceScript as Human;
+            GameObject theObj = Instantiate(WhatToPlace, position, Quaternion.identity);
+            Human humanScript = theObj.GetComponent<Human>();
             if (humanScript != null)
             {
-                if (HowManyTrybes == TribesToGenerate.BattleRoyale)
+                worldObjectsReferenceHelper.Humans.Add(theObj);
+
+                if (HowManyTribes == 0)
                 {
-                    humanScript.Tribe = Tribe.NoTribe;
+                    humanScript.Tribe = null;
                 }
                 else
                 {
-                    if (humanIteration == numofTribes)
-                    {
-                        humanIteration = 0;
-                    }
-
-                    switch (humanIteration)
-                    {
-                        case 0: humanScript.Tribe = Tribe.Tribe1; break;
-                        case 1: humanScript.Tribe = Tribe.Tribe2; break;
-                        case 2: humanScript.Tribe = Tribe.Tribe3; break;
-                        case 3: humanScript.Tribe = Tribe.Tribe4; break;
-                        case 4: humanScript.Tribe = Tribe.Tribe5; break;
-                        case 5: humanScript.Tribe = Tribe.Tribe6; break;
-                        case 6: humanScript.Tribe = Tribe.Tribe7; break;
-                        case 7: humanScript.Tribe = Tribe.Tribe8; break;
-                        case 8: humanScript.Tribe = Tribe.Tribe9; break;
-                        case 9: humanScript.Tribe = Tribe.Tribe10; break;
-                        default: throw new System.Exception("Somethhing went wrong");
-                    }
+                    humanScript.Tribe = worldObjectsReferenceHelper.Tribes.Find(i => i.Id == humanIteration);
                     humanIteration++;
+                    if (humanIteration == (numofTribes + 1))
+                    {
+                        humanIteration = 1;
+                    }
                 }
-
-
             }
-
-            GameObject theObj = Instantiate(WhatToPlace, position, Quaternion.identity);
-            if (theObj.GetComponent<Human>() != null)
-            {
-                worldObjectsReferenceHelper.Humans.Add(theObj);
-            }
-
-
-
         }
-
         AddExistingMinerals();
+    }
+
+    private void GenerateTribes()
+    {
+        var Tribes = WorldObjectsReferenceHelper.Current().Tribes;
+        Tribes.Add(new Tribe(1, Tribe1Color));
+        Tribes.Add(new Tribe(2, Tribe2Color));
+        Tribes.Add(new Tribe(3, Tribe3Color));
+        Tribes.Add(new Tribe(4, Tribe4Color));
+        Tribes.Add(new Tribe(5, Tribe5Color));
+        Tribes.Add(new Tribe(6, Tribe6Color));
+        Tribes.Add(new Tribe(7, Tribe7Color));
+        Tribes.Add(new Tribe(8, Tribe8Color));
+        Tribes.Add(new Tribe(9, Tribe9Color));
+        Tribes.Add(new Tribe(10, Tribe10Color));
     }
 
     private void AddExistingMinerals()

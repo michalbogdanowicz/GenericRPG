@@ -1,22 +1,11 @@
-﻿using System;
+﻿using Assets.Scripts.GenericRPG.Global;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GenericRpg.Business.Model.Living
 {
-    public enum Tribe {
-        NoTribe = 0,
-        Tribe1 = 1,
-        Tribe2 = 2,
-        Tribe3 = 3,
-        Tribe4 = 4,
-        Tribe5 = 5,
-        Tribe6 = 6,
-        Tribe7 = 7,
-        Tribe8 = 8,
-        Tribe9 = 9,
-        Tribe10 = 10
-    }
+ 
 
     public class Being : UniversalObject
     {
@@ -61,6 +50,7 @@ namespace GenericRpg.Business.Model.Living
 
         public void Start()
         {
+            
             CurrentWeapon = new Weapon(PresetWeapons.Fists);
 
             base.Attributes = new Attributes();

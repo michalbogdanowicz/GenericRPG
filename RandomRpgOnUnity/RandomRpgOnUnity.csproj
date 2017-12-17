@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.2.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -223,6 +225,7 @@
     <Compile Include="Assets\Scripts\CameraScritpt.cs" />
     <Compile Include="Assets\Scripts\Creators\HumanGeneration.cs" />
     <Compile Include="Assets\Scripts\Creators\IntelligentBeingMortal.cs" />
+    <Compile Include="Assets\Scripts\GenericRPG\Global\Tribe.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Global\WorldObjectsReferenceHelper.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Attributes.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Living\Beast.cs" />

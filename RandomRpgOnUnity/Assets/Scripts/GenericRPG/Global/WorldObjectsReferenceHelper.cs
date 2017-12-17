@@ -13,11 +13,13 @@ namespace Assets.Scripts.GenericRPG.Global
         private static WorldObjectsReferenceHelper current;
         public List<GameObject> Humans { get; set; }
         public List<GameObject> Minerals { get; set; }
+        public List<Tribe> Tribes { get; set; }
 
         private WorldObjectsReferenceHelper()
         {
             Humans = new List<GameObject>();
             Minerals = new List<GameObject>();
+            Tribes = new List<Tribe>();
         }
 
         public static WorldObjectsReferenceHelper Current()

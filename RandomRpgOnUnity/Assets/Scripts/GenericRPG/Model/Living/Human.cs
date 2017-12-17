@@ -17,14 +17,10 @@ namespace GenericRpg.Business.Model.Living
 
     public class Human : Being
     {
+
         float attackResetTimer = 0;
         public ResourcesCarried resourcesCarried;
-        public Sprite DamagedHuman;
-        public Sprite NormalHuman;
-        public Sprite Tribe1Human;
-        public Sprite Tribe2Human;
-        public Sprite Tribe3Human;
-        public Sprite Tribe4Human;
+
         Vector2 direction;
         private SpriteRenderer currentRenderer;
         private HumanTarget humanTarget;
@@ -37,7 +33,7 @@ namespace GenericRpg.Business.Model.Living
         {
             base.Start();
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
-            LoadTribeSprite();
+            ResetSprite();
             resourcesCarried = new ResourcesCarried();
         }
 
@@ -93,20 +89,18 @@ namespace GenericRpg.Business.Model.Living
 
         public void ToDamangedHuman()
         {
-            currentRenderer.sprite = DamagedHuman;
+            currentRenderer.color = Color.red;
         }
 
-        public void LoadTribeSprite()
+        public void ResetSprite()
         {
-
-            switch (base.Tribe)
+            if (Tribe != null)
             {
-                case Tribe.NoTribe: currentRenderer.sprite = NormalHuman; break;
-                case Tribe.Tribe1: currentRenderer.sprite = Tribe1Human; break;
-                case Tribe.Tribe2: currentRenderer.sprite = Tribe2Human; break;
-                case Tribe.Tribe3: currentRenderer.sprite = Tribe3Human; break;
-                case Tribe.Tribe4: currentRenderer.sprite = Tribe4Human; break;
-                default: throw new ArgumentException("Impossible tribre for now, insert new stuff!");
+                currentRenderer.color = base.Tribe.Color;
+            }
+            else
+            {
+                currentRenderer.color = Color.white;
             }
         }
         float whenToGoWhile = 0;
@@ -118,7 +112,7 @@ namespace GenericRpg.Business.Model.Living
             if (needToGoNormal && whenToGoWhile < Time.time)
             {
                 needToGoNormal = false;
-                LoadTribeSprite();
+                ResetSprite();
             }
         }
         /// <summary>

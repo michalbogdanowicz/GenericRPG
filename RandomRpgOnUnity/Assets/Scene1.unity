@@ -721,7 +721,7 @@ MonoBehaviour:
   PositionXEnd: 70
   PositionYStart: -50
   PositionYEnd: 50
-  HowManyTrybes: 4
+  HowManyTribes: 3
 --- !u!4 &1996377369
 Transform:
   m_ObjectHideFlags: 0
