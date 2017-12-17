@@ -21,44 +21,101 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
             currentRenderer.color = base.Tribe.Color;
             //
-            SpawnHuman();
-            SpawnHuman();
-            SpawnHuman();
-            SpawnHuman();
-            SpawnHuman();
-            WhenHumanIsReady = 0;
+            SpawnWorker();
+            SpawnWorker();
+            SpawnWorker();
+            SpawnWorker();
+            SpawnWorker();
+            WorkerTimer = 0;
+            BowManTimer = 0;
+            SwordmanTimer = 0;
         }
 
         public GameObject SpawnHuman()
         {
-            
+
             GameObject theObj = Instantiate(TheHuman, transform.position, Quaternion.identity);
             Human human = theObj.GetComponent<Human>();
             human.Tribe = base.Tribe;
             WorldObjectsReferenceHelper.Current().Humans.Add(theObj);
-            if (this.Tribe.CurrentWorkers < this.Tribe.MaxWorkers)
-            {
-                this.Tribe.CurrentWorkers++;
-                human.Role = Role.Worker;
-            }
-            else
-            {
-                human.Role = Role.Fighter;
-            }
             return theObj;
         }
+
+        private void SpawnWorker()
+        {
+            GameObject theObj = SpawnHuman();
+            Human human = theObj.GetComponent<Human>();
+            human.Role = Role.Worker;
+        }
+
+        public void SpawnBowMan()
+        {
+            GameObject theObj = SpawnHuman();
+            Human human = theObj.GetComponent<Human>();
+            human.EquippedWeapon = new Weapon(PresetWeapons.Bow);
+        }
+
+        private void SpawnSuperBowMan()
+        {
+            GameObject theObj = SpawnHuman();
+            Human human = theObj.GetComponent<Human>();
+            human.EquippedWeapon = new Weapon(PresetWeapons.Bow);
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+            human.Attributes.LevelUp();
+        }
+
+        private void SpawnSwordMan()
+        {
+            GameObject theObj = SpawnHuman();
+            Human human = theObj.GetComponent<Human>();
+            human.EquippedWeapon = new Weapon(PresetWeapons.Sword);
+        }
+
+        private float WorkerTimer;
+        private float BowManTimer;
+        private float SwordmanTimer;
 
         // Update is called once per frame
         void Update()
         {
             // build stuff
-            if (WhenHumanIsReady <= Time.time && Tribe.Stockpitle.Iron >= 5)
+            if (Tribe.CurrentWorkers < Tribe.MaxWorkers && Tribe.Stockpitle.Iron >= 5 && WorkerTimer <= Time.time)
             {
                 Tribe.Stockpitle.Iron -= 5;
-                SpawnHuman();
-                WhenHumanIsReady = Time.time + 2;
+                SpawnWorker();
+                Tribe.CurrentWorkers++;
+                WorkerTimer = Time.time + 0.1f;
+            }
+
+            if (Tribe.Stockpitle.Iron >= 20 && WorkerTimer <= Time.time)
+            {
+                Tribe.Stockpitle.Iron -= 20;
+                SpawnBowMan();
+                BowManTimer = Time.time + 3;
+            }
+            if (Tribe.Stockpitle.Iron >= 10 && SwordmanTimer <= Time.time)
+            {
+                Tribe.Stockpitle.Iron -= 10;
+                SpawnSwordMan();
+                SwordmanTimer = Time.time + 2;
+            }
+            if (Tribe.Stockpitle.Iron >= 100)
+            {
+                Tribe.Stockpitle.Iron -= 100;
+                SpawnSuperBowMan();
             }
 
         }
+
+   
     }
 }
+

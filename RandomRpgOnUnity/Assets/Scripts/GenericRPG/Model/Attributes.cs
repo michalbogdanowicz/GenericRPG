@@ -47,7 +47,28 @@ namespace GenericRpg.Business.Model
         /// In Kg
         /// </summary>
         public decimal? Weight { get; set; }
-        
 
+        public long Level { get; set; }
+
+        public long Xp { get; set; }
+
+        public void GotALvlKill(long enemyLevel)
+        {
+            for (int i = 0; i < enemyLevel; i++) {
+                LevelUp();
+            }
+        }
+        public void LevelUp()
+        {
+            /// </summary>
+            Strength += 10;
+            Reactivity += 10;
+            Mindfullness += 10;
+            Intelligence += 10;
+            Personality += 10;
+            Durability += 10;
+          //  Speed += 0.02f;
+            Level++;
+        }
     }
 }

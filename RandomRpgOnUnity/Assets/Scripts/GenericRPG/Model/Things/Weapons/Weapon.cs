@@ -7,7 +7,9 @@
 
     public enum PresetWeapons
     {
-        Fists
+        Fists,
+        Bow,
+        Sword
     }
 
     public class Weapon
@@ -48,12 +50,26 @@
         {
             switch (presetWeapons)
             {
-                case PresetWeapons.Fists: {
-                        Damage = 1;
-                        Range = 1f;
-                        StandardAttacksPerSecond = 2;
-                        Name = "Hands/Fists";
-                    } break;
+                case PresetWeapons.Fists:
+                    Damage = 1;
+                    Range = 1f;
+                    StandardAttacksPerSecond = 2;
+                    Name = "Hands/Fists";
+                    break;
+                case PresetWeapons.Bow:
+                    Damage = 5;
+                    Range = 10f;
+                    StandardAttacksPerSecond = 2;
+                    Name = "Bow";
+
+                    break;
+                case PresetWeapons.Sword:
+                    Damage = 3;
+                    Range = 1.1f;
+                    StandardAttacksPerSecond = 2;
+                    Name = "Sword";
+
+                    break;
                 default: throw new System.NotImplementedException("Impossible to find the specified weapon, please specify");
             }
         }

@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace GenericRpg.Business.Model.Living
 {
- 
+
 
     public class Being : UniversalObject
     {
-        public Tribe Tribe ;
 
         public bool IsAlive
         {
@@ -44,14 +44,13 @@ namespace GenericRpg.Business.Model.Living
         public decimal MassToEatDaily { get; set; }
 
         public bool IsALivingBeing { get; set; }
-        public Weapon CurrentWeapon { get; set; }
-
+        public Weapon EquippedWeapon { get; set; }
+        public Weapon BaseWeapon { get; set; }
 
 
         public void Start()
         {
-            
-            CurrentWeapon = new Weapon(PresetWeapons.Fists);
+            BaseWeapon = new Weapon(PresetWeapons.Fists);
 
             base.Attributes = new Attributes();
             base.Attributes.Heigt = 1.80m;// m stands for decimal not for meters.
@@ -74,7 +73,7 @@ namespace GenericRpg.Business.Model.Living
         }
 
 
-   
+
         public virtual void DecideWhatTodo()
         {
 
@@ -82,12 +81,12 @@ namespace GenericRpg.Business.Model.Living
 
         private void MoveAround()
         {
-      
+
         }
 
         private void MoveToward()
         {
-     
+
         }
 
 
@@ -101,13 +100,20 @@ namespace GenericRpg.Business.Model.Living
             // bonuses and other stuff?!?!?!!???
             //not now it seems.. // TODO weapon bonuses, classees, if implemented, and other stufff
 
-            int attempt = UnityEngine.Random.Range(1,100);
+            int attempt = UnityEngine.Random.Range(1, 100);
             if (attempt < chanceOfHitting)
             {
                 // HIT
-                int dmg = (base.Attributes.Strength.Value / 10 + CurrentWeapon.Damage);
+                int dmg = (base.Attributes.Strength.Value / 10 + (EquippedWeapon ?? BaseWeapon).Damage);
                 dmg = (int)Math.Round(dmg * ((double)UnityEngine.Random.Range(1, 10) / (double)10));
                 target.Attributes.Durability -= dmg;
+
+                Being item = target as Being;
+                if (item != null && item.IsAlive)
+                {
+                    base.Attributes.GotALvlKill(item.Attributes.Level);
+                    this.ShowLevelUp();
+                }
                 target.ShowHit();
                 //  report.Hits = true;
             }
@@ -118,6 +124,11 @@ namespace GenericRpg.Business.Model.Living
             }
 
             //  return report;
+        }
+
+        protected virtual void ShowLevelUp()
+        {
+       
         }
     }
 }

@@ -10,8 +10,7 @@ namespace GenericRpg.Business.Model.Living
 {
     public enum Role {
         Worker,
-        Fighter,
-        Ranger
+        Fighter
     }
 
     public class Human : Being
@@ -36,6 +35,15 @@ namespace GenericRpg.Business.Model.Living
             ResetSprite();
             resourcesCarried = new Stockpile();
           //  Role = Role.Fighter;
+        }
+        float ShowNormalAfterLevelUpTime;
+        protected override void ShowLevelUp()
+        {
+            base.ShowLevelUp();
+            var currentRenderer = gameObject.GetComponent<SpriteRenderer>();
+            currentRenderer.color = Color.yellow;
+            ShowNormalAfterLevelUpTime = Time.time + 0.15f;
+            needToGoNormal = true;
         }
 
         private class HumanTarget
@@ -105,13 +113,13 @@ namespace GenericRpg.Business.Model.Living
                 currentRenderer.color = Color.white;
             }
         }
-        float whenToGoWhile = 0;
+        float whenToGoWhite = 0;
         private bool needToGoNormal = false;
         private float WhenToThinkAboutDecision = 0;
 
         private void BackToNormalColorIfNeeded()
         {
-            if (needToGoNormal && whenToGoWhile < Time.time)
+            if (needToGoNormal && ( whenToGoWhite < Time.time  || ShowNormalAfterLevelUpTime < Time.time))
             {
                 needToGoNormal = false;
                 ResetSprite();
@@ -192,7 +200,7 @@ namespace GenericRpg.Business.Model.Living
                         gatheringResetTimer = Time.time + 2f; // every 2 seconds 1 peace of somehting. Need to add a level up. for this skill.
                     }
 
-                    if (base.Tribe != null &&( resourcesCarried.Copper > 10 || resourcesCarried.Iron > 10 || resourcesCarried.Wood > 10))
+                    if (base.Tribe != null &&( resourcesCarried.Copper > 2 || resourcesCarried.Iron > 2 || resourcesCarried.Wood > 2))
                     {
                         DepositMatsToTribe();
                     }
@@ -234,12 +242,12 @@ namespace GenericRpg.Business.Model.Living
         {
             if (humanTarget != null && humanTarget.Human != null && humanTarget.Human.IsAlive)
             {
-                if (humanTarget.Distance < (this.CurrentWeapon.Range))
+                if (humanTarget.Distance < ((base.EquippedWeapon ?? base.BaseWeapon).Range))
                 {
                     if (Time.time > attackResetTimer)
                     {
                         base.Attack(humanTarget.Human);
-                        attackResetTimer = Time.time + this.CurrentWeapon.RewindPeriod;
+                        attackResetTimer = Time.time + (base.EquippedWeapon ?? base.BaseWeapon).RewindPeriod;
                     }
                 }
                 else
@@ -307,7 +315,7 @@ namespace GenericRpg.Business.Model.Living
         public override void ShowHit()
         {
             this.ToDamangedHuman();
-            whenToGoWhile = Time.time + 0.15f;
+            whenToGoWhite = Time.time + 0.15f;
             needToGoNormal = true;
         }
 
