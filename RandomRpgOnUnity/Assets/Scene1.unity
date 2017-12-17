@@ -713,10 +713,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de5fb8634dfb9746b61a81751895f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tribe1Color: {r: 0.16803634, g: 0.5990424, b: 0.61764705, a: 1}
-  Tribe2Color: {r: 0.27595142, g: 0.14273356, b: 0.8088235, a: 1}
+  Tribe1Color: {r: 0.42214534, g: 0.74788195, b: 0.9411765, a: 1}
+  Tribe2Color: {r: 0.18555363, g: 0.7647059, b: 0.18954775, a: 1}
   Tribe3Color: {r: 0.33088237, g: 0.1119161, b: 0.1119161, a: 1}
-  Tribe4Color: {r: 0.03973833, g: 0.1544118, b: 0.054764524, a: 1}
+  Tribe4Color: {r: 0.31093207, g: 0.39534733, b: 0.5955882, a: 1}
   Tribe5Color: {r: 0.26443556, g: 0.49264705, b: 0.4171012, a: 1}
   Tribe6Color: {r: 0.53845155, g: 0.86764705, b: 0.31260812, a: 1}
   Tribe7Color: {r: 0.8251044, g: 0.9411765, b: 0.4152249, a: 1}
@@ -725,14 +725,16 @@ MonoBehaviour:
   Tribe10Color: {r: 0.64122117, g: 0.12727074, b: 0.78676474, a: 1}
   WhatToPlace: {fileID: 1371351913031500, guid: 5aedf2024f7d9c7418229790e8c0d699,
     type: 2}
-  MinimumAmount: 50
-  MaximumAmount: 50
+  BaseBuliding: {fileID: 1823381060425630, guid: f518c4a2ba1fb184a832610adbe2f0f4,
+    type: 2}
+  MinimumAmount: 200
+  MaximumAmount: 200
   PositionXStart: -70
   PositionXEnd: 70
   PositionYStart: -50
   PositionYEnd: 50
-  HowManyTribes: 3
-  GenerationMode: 0
+  HowManyTribes: 4
+  GenerationMode: 2
 --- !u!4 &1996377369
 Transform:
   m_ObjectHideFlags: 0

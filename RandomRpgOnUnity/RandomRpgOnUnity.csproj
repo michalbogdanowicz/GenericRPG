@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.2.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -221,6 +219,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Default.cs" />
     <Compile Include="Assets\Resources\things.cs" />
     <Compile Include="Assets\Scripts\CameraScritpt.cs" />
     <Compile Include="Assets\Scripts\Creators\HumanGeneration.cs" />
@@ -233,6 +232,7 @@
     <Compile Include="Assets\Scripts\GenericRPG\Model\Living\Being.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Living\Human.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Reports\ActionReport.cs" />
+    <Compile Include="Assets\Scripts\GenericRPG\Model\Things\Buildings\BaseBulding.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Things\Mineral.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Things\Thing.cs" />
     <Compile Include="Assets\Scripts\GenericRPG\Model\Things\Tree.cs" />

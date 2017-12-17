@@ -190,7 +190,6 @@ namespace GenericRpg.Business.Model.Living
                     {
                         DepositMatsToTribe();
                     }
-
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using GenericRpg.Business.Model.Reports;
+﻿using Assets.Scripts.GenericRPG.Global;
+using GenericRpg.Business.Model.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace GenericRpg.Business.Model
         public string GlobalGeneralName { get; set; }
 
         public Attributes Attributes { get; set; }
+        public Tribe Tribe;
 
         public virtual void DoAnythingYoucanDoOrWantTo() {
             // of course if you are an inaminate onbject you have no wil, but you still might be able to do something...

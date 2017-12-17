@@ -6,11 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Assets.Scripts.GenericRPG.Model.Things.Buildings;
 
 public enum GenerationMode
 {
     RandomPlacing,
-    TeamBasedPlacing
+    TeamBasedPlacing,
+    TeamBasedWithOnlyBuilding
 }
 
 public class StartingSceneGenration : MonoBehaviour
@@ -43,6 +45,7 @@ public class StartingSceneGenration : MonoBehaviour
     public Color Tribe10Color;
 
     public GameObject WhatToPlace;
+    public GameObject BaseBuliding;
     public int MinimumAmount;
     public int MaximumAmount;
     public int PositionXStart;
@@ -61,13 +64,13 @@ public class StartingSceneGenration : MonoBehaviour
 
         GenerateTribes();
 
-        GenerateHumans();
+        GenerateStuff();
 
         AddExistingMinerals();
     }
 
 
-    private void GenerateHumans()
+    private void GenerateStuff()
     {
         switch (GenerationMode)
         {
@@ -84,9 +87,32 @@ public class StartingSceneGenration : MonoBehaviour
                     }
                 }
                 break;
+            case GenerationMode.TeamBasedWithOnlyBuilding:
+
+                GenerateBuildingInCorners();
+
+                break;
             default: throw new NotImplementedException();
 
         }
+    }
+
+    private void GenerateBuildingInCorners()
+    {
+        WorldObjectsReferenceHelper worldObjectsReferenceHelper = WorldObjectsReferenceHelper.Current();
+            Tribe tribe = null;
+        for (int i = 0; i < numofTribes; i++)
+        {
+            tribe = worldObjectsReferenceHelper.Tribes.Find(ji => ji.Id == (i % numofTribes) + 1);
+            GameObject theObj = Instantiate(BaseBuliding, tribe.TeamPosition, Quaternion.identity);
+            BaseBulding humanScript = theObj.GetComponent<BaseBulding>();
+            if (humanScript != null)
+            {
+                humanScript.Tribe = tribe;
+                worldObjectsReferenceHelper.Humans.Add(theObj);
+            }
+        }
+        
     }
 
     private void GenerateHumansCloseInTribe()
@@ -96,7 +122,7 @@ public class StartingSceneGenration : MonoBehaviour
         for (int i = 0; i < numberOfHumans; i++)
         {
             Tribe tribe = null;
-                tribe = worldObjectsReferenceHelper.Tribes.Find(ji => ji.Id == (i % numofTribes) + 1);
+            tribe = worldObjectsReferenceHelper.Tribes.Find(ji => ji.Id == (i % numofTribes) + 1);
 
             GameObject theObj = Instantiate(WhatToPlace, tribe.TeamPosition, Quaternion.identity);
             Human humanScript = theObj.GetComponent<Human>();
@@ -134,9 +160,7 @@ public class StartingSceneGenration : MonoBehaviour
     private void GenerateTribes()
     {
         var Tribes = WorldObjectsReferenceHelper.Current().Tribes;
-
-
-        Tribes.Add(new Tribe(1, Tribe1Color, new Vector3(PositionXStart, PositionYStart,0)));
+        Tribes.Add(new Tribe(1, Tribe1Color, new Vector3(PositionXStart, PositionYStart, 0)));
         Tribes.Add(new Tribe(2, Tribe2Color, new Vector3(PositionXStart, PositionYEnd, 0)));
         Tribes.Add(new Tribe(3, Tribe3Color, new Vector3(PositionXEnd, PositionYStart, 0)));
         Tribes.Add(new Tribe(4, Tribe4Color, new Vector3(PositionXEnd, PositionYEnd, 0)));
