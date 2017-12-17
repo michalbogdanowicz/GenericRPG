@@ -62,6 +62,11 @@ namespace GenericRpg.Business.Model.Living
                 this.Distance = distance;
             }
         }
+
+        private float MovementSpeed() {
+            return SpeedModifier * base.Attributes.Speed.Value;
+        }
+
         private void GetHumanTarget()
         {
             float minDistanceSoFar = float.MaxValue;
@@ -156,7 +161,7 @@ namespace GenericRpg.Business.Model.Living
             if (WhenToThinkAboutDecision < Time.time)
             {
                 WhenToThinkAboutDecision = Time.time + UnityEngine.Random.Range(1, 1.8f);
-                actionChosen = ChooseAnAction();
+                actionChosen = ChooseAction();
             }
             // 
             Act();
@@ -193,14 +198,17 @@ namespace GenericRpg.Business.Model.Living
                 }
                 else
                 {
-                    Vector2 targetPosition = mineralTarget.Mineral.transform.position;
-                    transform.position = Vector2.MoveTowards(transform.position, targetPosition, Attributes.Speed.Value);
+                    MoveTo(mineralTarget.Mineral.transform.position);
                 }
             }
             else
             {
                 WhenToThinkAboutDecision = Time.time - 1; // reset the choose on who to rape.
             }
+        }
+
+        private void MoveTo(Vector2 target) {
+            transform.position = Vector2.MoveTowards(transform.position, target, MovementSpeed());
         }
 
         private void Mine(Mineral mineral)
@@ -228,8 +236,7 @@ namespace GenericRpg.Business.Model.Living
                 }
                 else
                 {
-                    Vector2 targetPosition = humanTarget.Human.transform.position;
-                    transform.position = Vector2.MoveTowards(transform.position, targetPosition, Attributes.Speed.Value);
+                    MoveTo(humanTarget.Human.transform.position);
                 }
             }
             else
@@ -250,7 +257,7 @@ namespace GenericRpg.Business.Model.Living
             transform.Translate(direction * Time.deltaTime);
         }
 
-        private ActionChosen ChooseAnAction()
+        private ActionChosen ChooseAction()
         {
             GetHumanTarget();
             if (humanTarget != null) { return ActionChosen.ReactToEnemy; }
