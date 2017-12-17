@@ -5,10 +5,15 @@
         Natural
     }
 
+    public enum PresetWeapons
+    {
+        Fists
+    }
+
     public class Weapon
     {
-        public float Range { get; set; }
         public int Damage { get; set; }
+        public float Range { get; set; }
         public string Name { get; set; }
         public WeaponType WeaponType { get; set; }
         private int standardAttacksPerSecond;
@@ -29,5 +34,29 @@
                 return timePause;
             }
         }
+
+        public Weapon(int damage, float range, string name, WeaponType weaponType, int sAttacksPerSecond)
+        {
+            this.Damage = damage;
+            this.Range = range;
+            this.Name = name;
+            this.WeaponType = WeaponType;
+            this.standardAttacksPerSecond = sAttacksPerSecond;
+        }
+
+        public Weapon(PresetWeapons presetWeapons)
+        {
+            switch (presetWeapons)
+            {
+                case PresetWeapons.Fists: {
+                        Damage = 1;
+                        Range = 1f;
+                        StandardAttacksPerSecond = 2;
+                        Name = "Hands/Fists";
+                    } break;
+                default: throw new System.NotImplementedException("Impossible to find the specified weapon, please specify");
+            }
+        }
+
     }
 }

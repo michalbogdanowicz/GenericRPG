@@ -10,7 +10,7 @@ namespace GenericRpg.Business.Model.Living
 {
     public class ResourcesCarried
     {
-     public   long Wood = 0;
+        public long Wood = 0;
         public long Iron = 0;
         public long Copper = 0;
     }
@@ -52,7 +52,8 @@ namespace GenericRpg.Business.Model.Living
             }
 
         }
-        private class MineralTarget {
+        private class MineralTarget
+        {
             public Mineral Mineral { get; set; }
             public float Distance { get; set; }
             public MineralTarget(Mineral mineral, float distance)
@@ -68,7 +69,7 @@ namespace GenericRpg.Business.Model.Living
 
             foreach (GameObject xxx in WorldObjectsReferenceHelper.Current().Humans)
             {
-                if (xxx != null )
+                if (xxx != null)
                 {
                     Human currentlyChecked = xxx.GetComponent<Human>();
                     if (currentlyChecked != null && currentlyChecked != this && currentlyChecked.Tribe != this.Tribe && currentlyChecked.IsAlive)
@@ -77,12 +78,12 @@ namespace GenericRpg.Business.Model.Living
                         if (distance < minDistanceSoFar && distance < AgressionRange)
                         {
                             minDistanceSoFar = distance;
-                            humanTarget = new HumanTarget(currentlyChecked,minDistanceSoFar);
+                            humanTarget = new HumanTarget(currentlyChecked, minDistanceSoFar);
                         }
                     }
                 }
             }
-         
+
         }
 
         public void ToDamangedHuman()
@@ -159,8 +160,8 @@ namespace GenericRpg.Business.Model.Living
             }
             // 
             Act();
-       
-            
+
+
         }
 
         private void Act()
@@ -172,7 +173,7 @@ namespace GenericRpg.Business.Model.Living
                 case ActionChosen.ReactToBuildingNeed: throw new NotImplementedException("Building not implemented"); break;
                 case ActionChosen.ReactToCraftingNeed: throw new NotImplementedException("Crafting not implemented"); break;
                 case ActionChosen.ReactToGathering: Gather(); break;
-                default: throw new NotImplementedException(String.Format("This action is not implemnted yet : {0}",actionChosen.ToString()));
+                default: throw new NotImplementedException(String.Format("This action is not implemnted yet : {0}", actionChosen.ToString()));
             }
         }
 
@@ -182,12 +183,12 @@ namespace GenericRpg.Business.Model.Living
         {
             if (mineralTarget != null && mineralTarget.Mineral != null && mineralTarget.Mineral)
             {
-                if (mineralTarget.Distance < (this.CurrentWeapon.Range * 0.2f))
+                if (mineralTarget.Distance < 2)
                 {
                     if (Time.time > gatheringResetTimer)
                     {
                         Mine(mineralTarget.Mineral);
-                        gatheringResetTimer = Time.time + this.CurrentWeapon.RewindPeriod;
+                        gatheringResetTimer = Time.time + 2f; // every 2 seconds 1 peace of somehting. Need to add a level up. for this skill.
                     }
                 }
                 else
@@ -198,7 +199,7 @@ namespace GenericRpg.Business.Model.Living
             }
             else
             {
-                WhenToThinkAboutDecision = Time.time - 1; // reset the choose who to rape.
+                WhenToThinkAboutDecision = Time.time - 1; // reset the choose on who to rape.
             }
         }
 
@@ -206,11 +207,11 @@ namespace GenericRpg.Business.Model.Living
         {
             switch (mineral.Type)
             {
-                case MineralType.Copper: mineral.Amount-- ; resourcesCarried.Copper++; break;
+                case MineralType.Copper: mineral.Amount--; resourcesCarried.Copper++; break;
                 case MineralType.Iron: mineral.Amount--; resourcesCarried.Iron++; break;
                 case MineralType.Unknown: throw new NotImplementedException("Impossible!");
             }
-            
+
         }
 
         private void ReactToEnemy()
@@ -245,16 +246,16 @@ namespace GenericRpg.Business.Model.Living
                 direction = UnityEngine.Random.insideUnitCircle.normalized;
                 timeToChooseAnotherDirection = Time.time + UnityEngine.Random.Range(0.8f, 2);
             }
-    
+
             transform.Translate(direction * Time.deltaTime);
         }
 
         private ActionChosen ChooseAnAction()
         {
             GetHumanTarget();
-            if ( humanTarget != null) { return ActionChosen.ReactToEnemy; }
+            if (humanTarget != null) { return ActionChosen.ReactToEnemy; }
             FindMineralTarget();
-            if ( mineralTarget != null) { return ActionChosen.ReactToGathering; }
+            if (mineralTarget != null) { return ActionChosen.ReactToGathering; }
             return ActionChosen.Wander;
 
         }
@@ -266,7 +267,7 @@ namespace GenericRpg.Business.Model.Living
             foreach (var obj in WorldObjectsReferenceHelper.Current().Minerals)
             {
                 Mineral currentlyChecked = obj.GetComponent<Mineral>();
-                if (currentlyChecked != null && currentlyChecked != this )
+                if (currentlyChecked != null && currentlyChecked != this)
                 {
                     float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
                     if (distance < minDistanceSoFar)

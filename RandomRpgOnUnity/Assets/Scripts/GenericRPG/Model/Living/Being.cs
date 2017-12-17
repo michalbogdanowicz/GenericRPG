@@ -61,13 +61,7 @@ namespace GenericRpg.Business.Model.Living
 
         public void Start()
         {
-            CurrentWeapon = new Weapon
-            {
-                Damage = UnityEngine.Random.Range(1, 2),
-                Range = 1f,
-                StandardAttacksPerSecond = 2,
-                Name = "Hands/Fists"
-            };
+            CurrentWeapon = new Weapon(PresetWeapons.Fists);
 
             base.Attributes = new Attributes();
             base.Attributes.Heigt = 1.80m;// m stands for decimal not for meters.
