@@ -7,8 +7,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+public enum GenerationMode
+{
+    RandomPlacing,
+    TeamBasedPlacing
+}
+
 public class StartingSceneGenration : MonoBehaviour
 {
+
     public enum TribesToGenerate
     {
         BattleRoyale = 0,
@@ -22,6 +29,8 @@ public class StartingSceneGenration : MonoBehaviour
         NineTribes = 9,
         TenTribes = 10
     }
+
+
     public Color Tribe1Color;
     public Color Tribe2Color;
     public Color Tribe3Color;
@@ -41,6 +50,8 @@ public class StartingSceneGenration : MonoBehaviour
     public int PositionYStart;
     public int PositionYEnd;
     public TribesToGenerate HowManyTribes;
+    public GenerationMode GenerationMode;
+
     // Use this for initialization
     void Start()
     {
@@ -48,10 +59,11 @@ public class StartingSceneGenration : MonoBehaviour
         GenerateTribes();
         int numofTribes = (int)HowManyTribes;
         int humanIteration = 1;
+        long numberOfHumans = UnityEngine.Random.Range(MinimumAmount, MaximumAmount);
 
-        foreach (Vector3 position in GeneratePositions())
+        for (int i = 0; i < numberOfHumans; i++)
         {
-            GameObject theObj = Instantiate(WhatToPlace, position, Quaternion.identity);
+            GameObject theObj = Instantiate(WhatToPlace, GenerateRandomPosition(), Quaternion.identity);
             Human humanScript = theObj.GetComponent<Human>();
             if (humanScript != null)
             {
@@ -63,7 +75,7 @@ public class StartingSceneGenration : MonoBehaviour
                 }
                 else
                 {
-                    humanScript.Tribe = worldObjectsReferenceHelper.Tribes.Find(i => i.Id == humanIteration);
+                    humanScript.Tribe = worldObjectsReferenceHelper.Tribes.Find(ji => ji.Id == humanIteration);
                     humanIteration++;
                     if (humanIteration == (numofTribes + 1))
                     {
@@ -72,6 +84,7 @@ public class StartingSceneGenration : MonoBehaviour
                 }
             }
         }
+
         AddExistingMinerals();
     }
 
@@ -109,15 +122,8 @@ public class StartingSceneGenration : MonoBehaviour
     }
 
 
-    Vector3[] GeneratePositions()
+    Vector3 GenerateRandomPosition()
     {
-        int num = UnityEngine.Random.Range(MinimumAmount, MaximumAmount);
-        Vector3[] array = new Vector3[num];
-        for (int i = 0; i < num; i++)
-        {
-            array[i] = new Vector3(UnityEngine.Random.Range(PositionXStart, PositionXEnd), UnityEngine.Random.Range(PositionYStart, PositionYEnd), 0);
-        }
-
-        return array;
+        return new Vector3(UnityEngine.Random.Range(PositionXStart, PositionXEnd), UnityEngine.Random.Range(PositionYStart, PositionYEnd), 0);
     }
 }
