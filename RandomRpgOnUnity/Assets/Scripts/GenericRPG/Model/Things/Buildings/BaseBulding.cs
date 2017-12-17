@@ -25,15 +25,26 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
             SpawnHuman();
             SpawnHuman();
             SpawnHuman();
-            WhenHumanIsReady = Time.time + 4;
+            SpawnHuman();
+            WhenHumanIsReady = 0;
         }
 
         public GameObject SpawnHuman()
         {
+            
             GameObject theObj = Instantiate(TheHuman, transform.position, Quaternion.identity);
-            Human script = theObj.GetComponent<Human>();
-            script.Tribe = base.Tribe;
+            Human human = theObj.GetComponent<Human>();
+            human.Tribe = base.Tribe;
             WorldObjectsReferenceHelper.Current().Humans.Add(theObj);
+            if (this.Tribe.CurrentWorkers < this.Tribe.MaxWorkers)
+            {
+                this.Tribe.CurrentWorkers++;
+                human.Role = Role.Worker;
+            }
+            else
+            {
+                human.Role = Role.Fighter;
+            }
             return theObj;
         }
 
@@ -41,11 +52,11 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
         void Update()
         {
             // build stuff
-            if (WhenHumanIsReady < Time.time)
+            if (WhenHumanIsReady <= Time.time && Tribe.Stockpitle.Iron >= 5)
             {
+                Tribe.Stockpitle.Iron -= 5;
                 SpawnHuman();
-                WhenHumanIsReady = Time.time + 4;
-
+                WhenHumanIsReady = Time.time + 2;
             }
 
         }

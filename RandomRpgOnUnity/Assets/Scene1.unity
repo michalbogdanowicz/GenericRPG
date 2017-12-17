@@ -735,6 +735,7 @@ MonoBehaviour:
   PositionYEnd: 50
   HowManyTribes: 4
   GenerationMode: 2
+  MaxAmountOfWorkers: 20
 --- !u!4 &1996377369
 Transform:
   m_ObjectHideFlags: 0

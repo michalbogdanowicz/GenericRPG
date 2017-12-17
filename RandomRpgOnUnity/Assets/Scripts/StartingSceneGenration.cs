@@ -57,6 +57,9 @@ public class StartingSceneGenration : MonoBehaviour
     private int numberOfHumans;
     private int numofTribes;
     // Use this for initialization
+    public long MaxAmountOfWorkers;
+
+
     void Start()
     {
         numofTribes = (int)HowManyTribes;
@@ -160,16 +163,17 @@ public class StartingSceneGenration : MonoBehaviour
     private void GenerateTribes()
     {
         var Tribes = WorldObjectsReferenceHelper.Current().Tribes;
-        Tribes.Add(new Tribe(1, Tribe1Color, new Vector3(PositionXStart, PositionYStart, 0)));
-        Tribes.Add(new Tribe(2, Tribe2Color, new Vector3(PositionXStart, PositionYEnd, 0)));
-        Tribes.Add(new Tribe(3, Tribe3Color, new Vector3(PositionXEnd, PositionYStart, 0)));
-        Tribes.Add(new Tribe(4, Tribe4Color, new Vector3(PositionXEnd, PositionYEnd, 0)));
-        Tribes.Add(new Tribe(5, Tribe5Color, new Vector3(PositionXStart, PositionYStart, 0)));
-        Tribes.Add(new Tribe(6, Tribe6Color, new Vector3(PositionXStart, PositionYEnd, 0)));
-        Tribes.Add(new Tribe(7, Tribe7Color, new Vector3(PositionXStart, PositionYStart, 0)));
-        Tribes.Add(new Tribe(8, Tribe8Color, new Vector3(PositionXStart, PositionYStart, 0)));
-        Tribes.Add(new Tribe(9, Tribe9Color, new Vector3(PositionXStart, PositionYStart, 0)));
-        Tribes.Add(new Tribe(10, Tribe10Color, new Vector3(PositionXStart, PositionYEnd, 0)));
+        Tribes.Add(new Tribe(1, Tribe1Color, new Vector3(PositionXStart, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(2, Tribe2Color, new Vector3(PositionXStart, PositionYEnd, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(3, Tribe3Color, new Vector3(PositionXEnd, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(4, Tribe4Color, new Vector3(PositionXEnd, PositionYEnd, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(5, Tribe5Color, new Vector3(PositionXStart, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(6, Tribe6Color, new Vector3(PositionXStart, PositionYEnd, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(7, Tribe7Color, new Vector3(PositionXStart, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(8, Tribe8Color, new Vector3(PositionXStart, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(9, Tribe9Color, new Vector3(PositionXStart, PositionYStart, 0), MaxAmountOfWorkers));
+        Tribes.Add(new Tribe(10, Tribe10Color, new Vector3(PositionXStart, PositionYEnd, 0), MaxAmountOfWorkers));
+
     }
 
     private void AddExistingMinerals()

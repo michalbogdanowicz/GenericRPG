@@ -14,11 +14,16 @@ namespace Assets.Scripts.GenericRPG.Global
         /// </summary>
         public int Id { get; set; }
 
-        public Tribe(int id, UnityEngine.Color color, Vector3 teamPosition) {
+        public long MaxWorkers;
+        public long CurrentWorkers;
+
+        public Tribe(int id, UnityEngine.Color color, Vector3 teamPosition, long maxWokers) {
             this.Id = id;
             this.Color = color;
             this.TeamPosition = teamPosition;
             Stockpitle = new Stockpile();
+            MaxWorkers = maxWokers;
+            CurrentWorkers = 0;
         }
 
         public Vector3 TeamPosition { get; set; }

@@ -19,7 +19,7 @@ namespace Assets.Scripts.GenericRPG.Global
 
         public void AddResources(Stockpile stockpile) {
             Wood += stockpile.Wood;
-            Wood += stockpile.Iron;
+            Iron += stockpile.Iron;
             Copper += stockpile.Copper;
         }
 

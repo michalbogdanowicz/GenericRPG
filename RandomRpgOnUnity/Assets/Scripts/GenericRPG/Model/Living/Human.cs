@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace GenericRpg.Business.Model.Living
 {
-
+    public enum Role {
+        Worker,
+        Fighter,
+        Ranger
+    }
 
     public class Human : Being
     {
@@ -23,6 +27,7 @@ namespace GenericRpg.Business.Model.Living
         private MineralTarget mineralTarget;
         private ActionChosen actionChosen;
         public float AgressionRange;
+        public Role Role;
         // Use this for initialization
         new void Start()
         {
@@ -30,6 +35,7 @@ namespace GenericRpg.Business.Model.Living
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
             ResetSprite();
             resourcesCarried = new Stockpile();
+          //  Role = Role.Fighter;
         }
 
         private class HumanTarget
@@ -186,7 +192,7 @@ namespace GenericRpg.Business.Model.Living
                         gatheringResetTimer = Time.time + 2f; // every 2 seconds 1 peace of somehting. Need to add a level up. for this skill.
                     }
 
-                    if (base.Tribe != null && resourcesCarried.Copper > 10 && resourcesCarried.Iron > 10 && resourcesCarried.Wood > 10)
+                    if (base.Tribe != null &&( resourcesCarried.Copper > 10 || resourcesCarried.Iron > 10 || resourcesCarried.Wood > 10))
                     {
                         DepositMatsToTribe();
                     }
@@ -261,12 +267,19 @@ namespace GenericRpg.Business.Model.Living
 
         private ActionChosen ChooseAction()
         {
-            GetHumanTarget();
-            if (humanTarget != null) { return ActionChosen.ReactToEnemy; }
-            FindMineralTarget();
-            if (mineralTarget != null) { return ActionChosen.ReactToGathering; }
-            return ActionChosen.Wander;
+            if (Role == Role.Fighter)
+            {
+                this.AgressionRange = float.MaxValue;
+                GetHumanTarget();
+                if (humanTarget != null) { return ActionChosen.ReactToEnemy; }
+            }
+            else if (Role == Role.Worker)
+            {
+                FindMineralTarget();
+                if (mineralTarget != null) { return ActionChosen.ReactToGathering; }
 
+            }
+            return ActionChosen.Wander;
         }
 
         private void FindMineralTarget()
@@ -275,14 +288,17 @@ namespace GenericRpg.Business.Model.Living
             float minDistanceSoFar = float.MaxValue;
             foreach (var obj in WorldObjectsReferenceHelper.Current().Minerals)
             {
-                Mineral currentlyChecked = obj.GetComponent<Mineral>();
-                if (currentlyChecked != null && currentlyChecked != this)
+                if (obj != null)
                 {
-                    float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
-                    if (distance < minDistanceSoFar)
+                    Mineral currentlyChecked = obj.GetComponent<Mineral>();
+                    if (currentlyChecked != null && currentlyChecked != this)
                     {
-                        minDistanceSoFar = distance;
-                        mineralTarget = new MineralTarget(currentlyChecked, distance);
+                        float distance = Vector2.Distance(transform.position, currentlyChecked.transform.position);
+                        if (distance < minDistanceSoFar)
+                        {
+                            minDistanceSoFar = distance;
+                            mineralTarget = new MineralTarget(currentlyChecked, distance);
+                        }
                     }
                 }
             }
