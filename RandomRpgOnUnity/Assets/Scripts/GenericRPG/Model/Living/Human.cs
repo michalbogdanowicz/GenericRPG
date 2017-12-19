@@ -28,7 +28,7 @@ namespace GenericRpg.Business.Model.Living
         public float AgressionRange;
         public Role Role;
         // Use this for initialization
-        new void Start()
+        public override void Start()
         {
             base.Start();
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -157,8 +157,9 @@ namespace GenericRpg.Business.Model.Living
         }
 
         // Update is called once per frame
-        void Update()
+        public override void Update()
         {
+            base.Update();
             BackToNormalColorIfNeeded();
             if (ManageDeath()) { return; };
             // decide what to do whene there is something to do, for example the target died.
@@ -179,8 +180,8 @@ namespace GenericRpg.Business.Model.Living
             {
                 case ActionChosen.Wander: WalkAround(); break;
                 case ActionChosen.ReactToEnemy: ReactToEnemy(); break;
-                case ActionChosen.ReactToBuildingNeed: throw new NotImplementedException("Building not implemented"); break;
-                case ActionChosen.ReactToCraftingNeed: throw new NotImplementedException("Crafting not implemented"); break;
+                case ActionChosen.ReactToBuildingNeed: throw new NotImplementedException("Building not implemented");
+                case ActionChosen.ReactToCraftingNeed: throw new NotImplementedException("Crafting not implemented");
                 case ActionChosen.ReactToGathering: ReactToGather(); break;
                 default: throw new NotImplementedException(String.Format("This action is not implemnted yet : {0}", actionChosen.ToString()));
             }

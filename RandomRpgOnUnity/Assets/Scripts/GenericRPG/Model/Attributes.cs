@@ -50,14 +50,26 @@ namespace GenericRpg.Business.Model
 
         public long Level { get; set; }
 
-        public long Xp { get; set; }
+        private long xp;
+        public long GetXp() { return xp; }
+     
+        public bool IsWorthXp;
+        public long XpWorth { get { return (IsWorthXp) ? Level * 100 : 0; } }
 
-        public void GotALvlKill(long enemyLevel)
-        {
-            for (int i = 0; i < enemyLevel; i++) {
-                LevelUp();
-            }
+        public Attributes() {
+            IsWorthXp = false;
+            Level = 1;
+            xp = 0;
         }
+        public void AddXp(long xpToAdd)
+        {
+            xp += xpToAdd;
+        }
+        private long XpnNeededToLevel = 0;
+        private long XpToLevel() {
+            return this.Level * 100;
+        }
+
         public void LevelUp()
         {
             /// </summary>

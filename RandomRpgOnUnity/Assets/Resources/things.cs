@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Things : MonoBehaviour {
 
-    GameObject xxx;
 
     // Use this for initialization
     void Start () {

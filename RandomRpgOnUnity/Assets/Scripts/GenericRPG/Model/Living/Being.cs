@@ -48,11 +48,12 @@ namespace GenericRpg.Business.Model.Living
         public Weapon BaseWeapon { get; set; }
 
 
-        public void Start()
+        public override void Start()
         {
+            base.Start();
             BaseWeapon = new Weapon(PresetWeapons.Fists);
 
-            base.Attributes = new Attributes();
+        
             base.Attributes.Heigt = 1.80m;// m stands for decimal not for meters.
             base.Attributes.Weight = 70;
             // default values for attributes of beings.
@@ -111,7 +112,7 @@ namespace GenericRpg.Business.Model.Living
                 Being item = target as Being;
                 if (item != null && item.IsAlive)
                 {
-                    base.Attributes.GotALvlKill(item.Attributes.Level);
+                    this.Attributes.AddXp(item.Attributes.XpWorth);
                     this.ShowLevelUp();
                 }
                 target.ShowHit();

@@ -12,7 +12,7 @@ public class CameraScritpt : MonoBehaviour
 
     }
 
-    public Camera camera;
+    public Camera theCamera;
     // Update is called once per frame
     void Update()
     {
@@ -20,7 +20,7 @@ public class CameraScritpt : MonoBehaviour
         float yAxisValue = Input.GetAxis("Vertical");
         float zAxisValue = Input.GetAxis("Mouse ScrollWheel");
 
-        if (camera != null)
+        if (theCamera != null)
         {
 
             if (Input.GetKey("mouse 1"))
@@ -30,12 +30,12 @@ public class CameraScritpt : MonoBehaviour
             }
             if (zAxisValue != 0)
             {
-                camera.orthographicSize -= zAxisValue * ZoomSpeed;
+                theCamera.orthographicSize -= zAxisValue * ZoomSpeed;
             }
 
             if (xAxisValue != 0f || yAxisValue != 0f)
             {
-                camera.transform.Translate(new Vector3(ProperChange(xAxisValue), ProperChange(yAxisValue), 0));
+                theCamera.transform.Translate(new Vector3(ProperChange(xAxisValue), ProperChange(yAxisValue), 0));
             }
         }
     }

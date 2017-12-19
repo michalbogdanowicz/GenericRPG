@@ -6,29 +6,30 @@ using UnityEngine;
 
 namespace GenericRpg.Business.Model.Things
 {
-    public enum MineralType {
-        
+    public enum MineralType
+    {
+
         Unknown,
         Iron,
         Copper
 
     }
 
-  public  class Mineral : UniversalObject
+    public class Mineral : UniversalObject
     {
-      public  MineralType Type;
+        public MineralType Type;
         public long Amount;
 
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
 
         }
 
         // Update is called once per frame
-        void Update()
+        public override void Update()
         {
-            if ( Amount < 0) { GameObject.Destroy(this.gameObject); }
+            if (Amount < 0) { GameObject.Destroy(this.gameObject); }
         }
     }
 }

@@ -18,6 +18,13 @@ namespace GenericRpg.Business.Model
         public Attributes Attributes { get; set; }
         public Tribe Tribe;
 
+        public virtual void Start() {
+            Attributes = new Attributes();
+        }
+        public virtual void Update()
+        {
+
+        }
         public virtual void DoAnythingYoucanDoOrWantTo() {
             // of course if you are an inaminate onbject you have no wil, but you still might be able to do something...
             // and you need the phase 

@@ -12,12 +12,11 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
     public class BaseBulding : UniversalObject
     {
         private SpriteRenderer currentRenderer;
-        private float WhenHumanIsReady;
-        private bool IsBuildingAHuman;
         public GameObject TheHuman;
         // Use this for initialization
-        void Start()
+       public override void Start()
         {
+            base.Start();
             currentRenderer = gameObject.GetComponent<SpriteRenderer>();
             currentRenderer.color = base.Tribe.Color;
             //
@@ -84,8 +83,9 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
         private float SwordmanTimer;
 
         // Update is called once per frame
-        void Update()
+       public override void Update()
         {
+            base.Update();
             // build stuff
             if (Tribe.CurrentWorkers < Tribe.MaxWorkers && Tribe.Stockpile.Iron >= 5 && WorkerTimer <= Time.time)
             {
@@ -95,7 +95,7 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
                 WorkerTimer = Time.time + 0.1f;
             }
 
-            if (Tribe.Stockpile.Iron >= 20 && WorkerTimer <= Time.time)
+            if (Tribe.Stockpile.Iron >= 20 && BowManTimer <= Time.time)
             {
                 Tribe.Stockpile.Iron -= 20;
                 SpawnBowMan();
