@@ -87,31 +87,32 @@ namespace Assets.Scripts.GenericRPG.Model.Things.Buildings
         void Update()
         {
             // build stuff
-            if (Tribe.CurrentWorkers < Tribe.MaxWorkers && Tribe.Stockpitle.Iron >= 5 && WorkerTimer <= Time.time)
+            if (Tribe.CurrentWorkers < Tribe.MaxWorkers && Tribe.Stockpile.Iron >= 5 && WorkerTimer <= Time.time)
             {
-                Tribe.Stockpitle.Iron -= 5;
+                Tribe.Stockpile.Iron -= 5;
                 SpawnWorker();
                 Tribe.CurrentWorkers++;
                 WorkerTimer = Time.time + 0.1f;
             }
 
-            if (Tribe.Stockpitle.Iron >= 20 && WorkerTimer <= Time.time)
+            if (Tribe.Stockpile.Iron >= 20 && WorkerTimer <= Time.time)
             {
-                Tribe.Stockpitle.Iron -= 20;
+                Tribe.Stockpile.Iron -= 20;
                 SpawnBowMan();
                 BowManTimer = Time.time + 3;
             }
-            if (Tribe.Stockpitle.Iron >= 10 && SwordmanTimer <= Time.time)
+            if (Tribe.Stockpile.Iron >= 10 && SwordmanTimer <= Time.time)
             {
-                Tribe.Stockpitle.Iron -= 10;
+                Tribe.Stockpile.Iron -= 10;
                 SpawnSwordMan();
                 SwordmanTimer = Time.time + 2;
             }
-            if (Tribe.Stockpitle.Iron >= 100)
+            if (Tribe.Stockpile.Iron >= 100)
             {
-                Tribe.Stockpitle.Iron -= 100;
+                Tribe.Stockpile.Iron -= 100;
                 SpawnSuperBowMan();
             }
+            
 
         }
 

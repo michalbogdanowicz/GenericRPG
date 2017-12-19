@@ -21,13 +21,13 @@ namespace Assets.Scripts.GenericRPG.Global
             this.Id = id;
             this.Color = color;
             this.TeamPosition = teamPosition;
-            Stockpitle = new Stockpile();
+            Stockpile = new Stockpile();
             MaxWorkers = maxWokers;
             CurrentWorkers = 0;
         }
 
         public Vector3 TeamPosition { get; set; }
-        public Stockpile Stockpitle;
+        public Stockpile Stockpile;
 
         public override bool Equals(object obj)
         {

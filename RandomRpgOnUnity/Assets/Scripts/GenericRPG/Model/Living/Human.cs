@@ -199,8 +199,7 @@ namespace GenericRpg.Business.Model.Living
                         Mine(mineralTarget.Mineral);
                         gatheringResetTimer = Time.time + 2f; // every 2 seconds 1 peace of somehting. Need to add a level up. for this skill.
                     }
-
-                    if (base.Tribe != null &&( resourcesCarried.Copper > 2 || resourcesCarried.Iron > 2 || resourcesCarried.Wood > 2))
+                    if (base.Tribe != null)
                     {
                         DepositMatsToTribe();
                     }
@@ -218,7 +217,7 @@ namespace GenericRpg.Business.Model.Living
 
         private void DepositMatsToTribe()
         {
-            this.Tribe.Stockpitle.AddResources(this.resourcesCarried);
+            this.Tribe.Stockpile.AddResources(this.resourcesCarried);
             this.resourcesCarried.Empty();
         }
 
